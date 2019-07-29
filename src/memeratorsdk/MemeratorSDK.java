@@ -20,14 +20,26 @@ import org.json.JSONObject;
  * @author Kyle Henry
  */
 public class MemeratorSDK {
-
-    /**
-     * @param args the command line arguments
-     */
     
     private static HttpURLConnection con;
     private static String authorization;
     
+    /**
+     * @param username Memerator Username
+     * @param password Memerator Password
+     * Attempts to login to Memerator
+     * @return returns true if login is sucessful, false otherwise
+     * @throws IOException
+     */
+    
+    /**
+     * Sets Authorization for User
+     * @param auth 
+     */
+    public static void setAuth(String auth)
+    {
+        authorization = auth;
+    }
     
     public static boolean login(String username, String password) throws IOException
     {
@@ -59,12 +71,47 @@ public class MemeratorSDK {
         return true;
     }
     
-    
+    /**
+     * Retrieves random Meme from Memerator
+     * @return JSONObject containing Meme Data
+     * @throws MalformedURLException
+     * @throws ProtocolException
+     * @throws IOException 
+     */
     public static JSONObject getRandomMeme() throws MalformedURLException,
         ProtocolException, IOException {
         System.setProperty("http.agent", "Chrome");
         
         URL myurl = new URL("https://memerator.me/api/v1/meme/random");
+        con = (HttpURLConnection) myurl.openConnection();
+
+        con.setRequestMethod("GET");
+//        con.setRequestProperty("Content-Type", "application/json");
+        con.addRequestProperty(authorization, authorization);
+        con.setRequestProperty("Authorization", authorization);
+
+        JSONObject jsonObject;
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(
+                con.getInputStream()))) {
+            jsonObject = new JSONObject(in.readLine());
+        }
+        
+        return jsonObject;
+        
+    }
+    
+    /**
+     * Retrieves profile information for User
+     * @return JSONObject containing Meme Data
+     * @throws MalformedURLException
+     * @throws ProtocolException
+     * @throws IOException 
+     */
+    public static JSONObject getProfile() throws MalformedURLException,
+        ProtocolException, IOException {
+        System.setProperty("http.agent", "Chrome");
+        
+        URL myurl = new URL("https://memerator.me/api/v1/profile/me");
         con = (HttpURLConnection) myurl.openConnection();
 
         con.setRequestMethod("GET");
