@@ -1,5 +1,7 @@
 package me.memerator.api;
 
+import java.util.HashMap;
+
 public final class MemeratorAPI {
     public static String token;
 
@@ -9,5 +11,9 @@ public final class MemeratorAPI {
 
     public String getToken() {
         return token;
+    }
+
+    public Meme getMeme(String id) {
+        return new Meme(new HashMap<String, String>());
     }
 }
