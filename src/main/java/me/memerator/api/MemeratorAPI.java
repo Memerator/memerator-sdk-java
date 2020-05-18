@@ -1,5 +1,6 @@
 package me.memerator.api;
 
+import me.memerator.api.errors.*;
 import me.memerator.api.object.Meme;
 
 public final class MemeratorAPI {
@@ -19,7 +20,12 @@ public final class MemeratorAPI {
         return api;
     }
 
-    public Meme getMeme(String id) {
-        return new Meme(api.get("meme/" + id, getToken()));
+    public Meme getMeme(String id) throws Unauthorized, RateLimited, InvalidToken, InternalServerError, NotFound {
+        try {
+            return new Meme(getAPI().get("meme/" + id, getToken()));
+        } catch (NotFound notFound) {
+            throw new NotFound("This meme doesn't exist!");
+        }
+
     }
 }
