@@ -8,10 +8,15 @@ public final class MemeratorAPI {
 
     public MemeratorAPI(String apiKey) {
         token = apiKey;
+        api = new API();
     }
 
     public String getToken() {
         return token;
+    }
+
+    public API getAPI() {
+        return api;
     }
 
     public Meme getMeme(String id) {
