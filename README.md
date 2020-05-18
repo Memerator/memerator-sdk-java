@@ -15,7 +15,7 @@ First, you need Chew's Jenkins repository
 ```
 Then, you'll need to install the build you want. All are considered dev builds unless otherwise specified in a [Release](releases).
 
-Replace <version>[this]</version> with the latest build found on [the Jenkins page](https://jenkins.chew.pw/job/memerator-sdk-java/lastSuccessfulBuild/). See MemeratorAPI-[version string].jar. 
+Replace <version>[this]</version> with the latest build found on [the Jenkins page](https://jenkins.chew.pw/job/memerator-sdk-java/lastSuccessfulBuild/). See MemeratorAPI-[version string].jar.
 ```xml
 <!-- Memerator API -->
 <dependency>
@@ -28,3 +28,19 @@ Replace <version>[this]</version> with the latest build found on [the Jenkins pa
 Builds remain there indefinitely, but it's always best to stay up to date.
 
 Alternatively, on the same Jenkins link, you can manually download the JAR yourself for safe keeping, in case it does go down.
+
+## Using
+
+Using the API is simple. Here's an example to get you started!
+
+```java
+import me.memerator.api;
+import me.memerator.object.*;
+
+// Define the Memerator API
+MemeratorAPI api = new MemeratorAPI("your api key");
+// Get meme "aaaaaaa"
+Meme meme = api.getMeme("aaaaaaa");
+// Print out the memerator.me link
+System.out.println(meme.getMemeUrl())
+```
