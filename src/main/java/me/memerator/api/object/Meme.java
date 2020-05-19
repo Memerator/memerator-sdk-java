@@ -54,6 +54,13 @@ public class Meme {
     }
 
     /**
+     * @return the time string that appears on the website
+     */
+    public String getTimeAgoFormatted() {
+        return values.getString("time_ago");
+    }
+
+    /**
      * @return [User] the author of this meme
      */
     public User getAuthor() {
