@@ -10,7 +10,7 @@ public final class MemeratorAPI {
 
     public MemeratorAPI(String apiKey) {
         token = apiKey;
-        api = new API();
+        api = new API(apiKey);
     }
 
     public String getToken() {
@@ -23,13 +23,13 @@ public final class MemeratorAPI {
 
     public Meme getMeme(String id) throws Unauthorized, RateLimited, InvalidToken, InternalServerError, NotFound {
         try {
-            return new Meme(getAPI().get("meme/" + id, getToken()));
+            return new Meme(getAPI().get("meme/" + id));
         } catch (NotFound notFound) {
             throw new NotFound("This meme doesn't exist!");
         }
     }
 
     public User getUser(String username) throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError {
-        return new User(getAPI().get("profile/" + username, getToken()));
+        return new User(getAPI().get("profile/" + username));
     }
 }

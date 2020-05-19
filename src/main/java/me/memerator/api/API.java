@@ -10,13 +10,15 @@ import java.util.Map;
 
 public class API {
     private static OkHttpClient client;
+    private static String key;
     public static final String baseUrl = "https://api.memerator.me/v1/";
 
-    public API() {
+    public API(String apiKey) {
         client = new OkHttpClient();
+        key = apiKey;
     }
 
-    public JSONObject get(String path, String key) throws NotFound, InvalidToken, RateLimited, Unauthorized, InternalServerError {
+    public JSONObject get(String path) throws NotFound, InvalidToken, RateLimited, Unauthorized, InternalServerError {
         Request request = new Request.Builder()
                 .url(baseUrl + path)
                 .get()
@@ -26,7 +28,7 @@ public class API {
         return performRequest(request);
     }
 
-    public JSONObject post(String path, String key, HashMap<String, Object> args) throws RateLimited, InvalidToken, NotFound, Unauthorized, InternalServerError {
+    public JSONObject post(String path, HashMap<String, Object> args) throws RateLimited, InvalidToken, NotFound, Unauthorized, InternalServerError {
         FormBody.Builder bodyArgs = new FormBody.Builder();
         for(Map.Entry<String, Object> entry : args.entrySet()) {
             bodyArgs.add(entry.getKey(), (String) entry.getValue());
