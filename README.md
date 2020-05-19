@@ -37,10 +37,16 @@ Using the API is simple. Here's an example to get you started!
 import me.memerator.api;
 import me.memerator.object.*;
 
-// Define the Memerator API
-MemeratorAPI api = new MemeratorAPI("your api key");
-// Get meme "aaaaaaa"
-Meme meme = api.getMeme("aaaaaaa");
-// Print out the memerator.me link
-System.out.println(meme.getMemeUrl())
+public class MyMemeratorProgram {
+    public static void main(String[] args) {
+        // Define the Memerator API
+        MemeratorAPI api = new MemeratorAPI("your api key");
+        // Get meme "aaaaaaa"
+        Meme meme = api.getMeme("aaaaaaa");
+        // Print out the memerator.me link
+        System.out.println(meme.getMemeUrl());
+    }
+}
 ```
+
+You can view the Javadocs [here](https://jenkins.chew.pw/job/memerator-sdk-java/javadoc/overview-summary.html).
