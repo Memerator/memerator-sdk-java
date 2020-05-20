@@ -101,4 +101,35 @@ public class Meme {
         Comment[] comm = new Comment[0];
         return comments.toArray(comm);
     }
+
+    /**
+     * 1 => Family Friendly
+     * 2 => Teen
+     * 4 => Mature
+     * @return the age rating
+     */
+    public int getAgeRating() {
+        return values.getInt("age");
+    }
+
+    /**
+     * @return if the meme is family friendly (age == 1)
+     */
+    public boolean isFamilyFriendly() {
+        return getAgeRating() == 1;
+    }
+
+    /**
+     * @return if the meme is for teens (age == 2)
+     */
+    public boolean isTeen() {
+        return getAgeRating() == 2;
+    }
+
+    /**
+     * @return if the meme is mature (age == 4)
+     */
+    public boolean isMature() {
+        return getAgeRating() == 4;
+    }
 }
