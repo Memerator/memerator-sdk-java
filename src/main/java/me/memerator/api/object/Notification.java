@@ -1,5 +1,7 @@
 package me.memerator.api.object;
 
+import me.memerator.api.MemeratorAPI;
+import me.memerator.api.errors.*;
 import org.json.JSONObject;
 
 import java.time.Instant;
@@ -85,5 +87,12 @@ public class Notification {
         } else {
             return values.getJSONObject("meme").getInt("rating");
         }
+    }
+
+    /**
+     * Deletes this notification
+     */
+    public void delete() throws InvalidToken, RateLimited, NotFound, Unauthorized, InternalServerError {
+        MemeratorAPI.api.delete("/notification/" + getNotificationId());
     }
 }
