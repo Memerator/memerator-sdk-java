@@ -132,4 +132,17 @@ public class Meme {
     public boolean isMature() {
         return getAgeRating() == 4;
     }
+
+    /**
+     * @return the age string as it appears on the website
+     */
+    public String getAgeString() {
+        if(isFamilyFriendly()) {
+            return "Family Friendly";
+        } else if(isTeen()) {
+            return "Teen";
+        } else {
+            return "Mature";
+        }
+    }
 }
