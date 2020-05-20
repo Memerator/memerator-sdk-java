@@ -2,6 +2,7 @@ package me.memerator.api;
 
 import me.memerator.api.errors.*;
 import okhttp3.*;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -18,7 +19,7 @@ public class API {
         key = apiKey;
     }
 
-    public JSONObject get(String path) throws NotFound, InvalidToken, RateLimited, Unauthorized, InternalServerError {
+    public String get(String path) throws NotFound, InvalidToken, RateLimited, Unauthorized, InternalServerError {
         Request request = new Request.Builder()
                 .url(baseUrl + path)
                 .get()
@@ -28,7 +29,7 @@ public class API {
         return performRequest(request);
     }
 
-    public JSONObject post(String path, HashMap<String, Object> args) throws RateLimited, InvalidToken, NotFound, Unauthorized, InternalServerError {
+    public String post(String path, HashMap<String, Object> args) throws RateLimited, InvalidToken, NotFound, Unauthorized, InternalServerError {
         FormBody.Builder bodyArgs = new FormBody.Builder();
         for(Map.Entry<String, Object> entry : args.entrySet()) {
             bodyArgs.add(entry.getKey(), (String) entry.getValue());
@@ -44,7 +45,7 @@ public class API {
         return performRequest(request);
     }
 
-    public JSONObject performRequest(Request request) throws NotFound, InvalidToken, RateLimited, Unauthorized, InternalServerError {
+    public String performRequest(Request request) throws NotFound, InvalidToken, RateLimited, Unauthorized, InternalServerError {
         try (Response response = client.newCall(request).execute()) {
             switch(response.code()) {
                 case 400:
@@ -60,10 +61,18 @@ public class API {
                 case 500:
                     throw new InternalServerError("A server side error occured while performing this request. Please try again later!");
             }
-            return new JSONObject(response.body().string());
+            return response.body().string();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public JSONObject responseToJSONObject(String response) {
+        return new JSONObject(response);
+    }
+
+    public JSONArray responseToJSONArray(String response) {
+        return new JSONArray(response);
     }
 }

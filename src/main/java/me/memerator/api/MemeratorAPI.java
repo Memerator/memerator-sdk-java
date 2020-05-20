@@ -4,6 +4,7 @@ import me.memerator.api.errors.*;
 import me.memerator.api.object.Meme;
 import me.memerator.api.object.Profile;
 import me.memerator.api.object.User;
+import org.json.JSONObject;
 
 public final class MemeratorAPI {
     public static String token;
@@ -24,17 +25,17 @@ public final class MemeratorAPI {
 
     public Meme getMeme(String id) throws Unauthorized, RateLimited, InvalidToken, InternalServerError, NotFound {
         try {
-            return new Meme(getAPI().get("meme/" + id));
+            return new Meme(new JSONObject(getAPI().get("meme/" + id)));
         } catch (NotFound notFound) {
             throw new NotFound("This meme doesn't exist!");
         }
     }
 
     public User getUser(String username) throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError {
-        return new User(getAPI().get("profile/" + username));
+        return new User(new JSONObject(getAPI().get("profile/" + username)));
     }
 
     public Profile getProfile() throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError {
-        return new Profile(getAPI().get("profile/me"));
+        return new Profile(new JSONObject(getAPI().get("profile/me")));
     }
 }
