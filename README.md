@@ -13,7 +13,7 @@ First, you need Chew's Jenkins repository
   <url>https://jenkins.chew.pw/plugin/repository/everything/</url>
 </repository>
 ```
-Then, you'll need to install the build you want. All are considered dev builds unless otherwise specified in a [Release](releases).
+Then, you'll need to install the build you want. All are considered dev builds unless otherwise specified in a [Release](https://github.com/Memerator/memerator-sdk-java/releases).
 
 Replace <version>[this]</version> with the latest build found on [the Jenkins page](https://jenkins.chew.pw/job/memerator-sdk-java/lastSuccessfulBuild/). See MemeratorAPI-[version string].jar.
 ```xml
