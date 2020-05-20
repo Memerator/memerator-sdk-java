@@ -30,19 +30,41 @@ public class API {
     }
 
     public String post(String path, HashMap<String, Object> args) throws RateLimited, InvalidToken, NotFound, Unauthorized, InternalServerError {
-        FormBody.Builder bodyArgs = new FormBody.Builder();
-        for(Map.Entry<String, Object> entry : args.entrySet()) {
-            bodyArgs.add(entry.getKey(), (String) entry.getValue());
-        }
-        RequestBody formBody = bodyArgs.build();
-
         Request request = new Request.Builder()
                 .url(baseUrl + path)
-                .post(formBody)
+                .post(bodyFromHash(args))
                 .addHeader("Authorization", key)
                 .build();
 
         return performRequest(request);
+    }
+
+    public String patch(String path, HashMap<String, Object> args) throws RateLimited, InvalidToken, NotFound, Unauthorized, InternalServerError {
+        Request request = new Request.Builder()
+                .url(baseUrl + path)
+                .patch(bodyFromHash(args))
+                .addHeader("Authorization", key)
+                .build();
+
+        return performRequest(request);
+    }
+
+    public String delete(String path) throws RateLimited, InvalidToken, NotFound, Unauthorized, InternalServerError {
+        Request request = new Request.Builder()
+                .url(baseUrl + path)
+                .delete()
+                .addHeader("Authorization", key)
+                .build();
+
+        return performRequest(request);
+    }
+
+    public RequestBody bodyFromHash(HashMap<String, Object> args) {
+        FormBody.Builder bodyArgs = new FormBody.Builder();
+        for(Map.Entry<String, Object> entry : args.entrySet()) {
+            bodyArgs.add(entry.getKey(), (String) entry.getValue());
+        }
+        return bodyArgs.build();
     }
 
     public String performRequest(Request request) throws NotFound, InvalidToken, RateLimited, Unauthorized, InternalServerError {
