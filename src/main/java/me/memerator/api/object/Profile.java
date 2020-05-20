@@ -84,12 +84,12 @@ public class Profile extends User {
      */
     public Notification[] getNotifications() throws Unauthorized, RateLimited, InvalidToken, InternalServerError, NotFound {
         JSONArray notificationsraw = new JSONArray(MemeratorAPI.api.get("/notifications"));
-        ArrayList<Comment> notifications = new ArrayList<>();
+        ArrayList<Notification> notifications = new ArrayList<>();
         for(int i = 0; i < notificationsraw.length(); i++) {
-            notifications.add(new Comment((JSONObject) notificationsraw.get(i)));
+            notifications.add(new Notification((JSONObject) notificationsraw.get(i)));
         }
-        Notification[] comm = new Notification[0];
-        return notifications.toArray(comm);
+        Notification[] noti = new Notification[0];
+        return notifications.toArray(noti);
     }
 
     /**
