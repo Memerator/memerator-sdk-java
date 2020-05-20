@@ -91,7 +91,7 @@ public class User {
     /**
      * @return (String) the user's join time
      * @deprecated
-     * @see getJoinTimestamp()
+     * @see User#getJoinTimestamp()
      */
     public String getJoinedAt() {
         return values.getString("joined");
