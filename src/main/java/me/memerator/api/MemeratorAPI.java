@@ -43,4 +43,8 @@ public final class MemeratorAPI {
     public Stats getStats() throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError {
         return new Stats(new JSONObject(getAPI().get("stats")));
     }
+
+    public Meme getRandomMeme() throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError {
+        return new Meme(new JSONObject(getAPI().get("meme/random")));
+    }
 }
