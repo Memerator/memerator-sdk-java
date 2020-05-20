@@ -3,6 +3,7 @@ package me.memerator.api;
 import me.memerator.api.errors.*;
 import me.memerator.api.object.Meme;
 import me.memerator.api.object.Profile;
+import me.memerator.api.object.Stats;
 import me.memerator.api.object.User;
 import org.json.JSONObject;
 
@@ -37,5 +38,9 @@ public final class MemeratorAPI {
 
     public Profile getProfile() throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError {
         return new Profile(new JSONObject(getAPI().get("profile/me")));
+    }
+
+    public Stats getStats() throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError {
+        return new Stats(new JSONObject(getAPI().get("stats")));
     }
 }
