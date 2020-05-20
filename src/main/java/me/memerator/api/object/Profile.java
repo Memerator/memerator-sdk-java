@@ -2,8 +2,10 @@ package me.memerator.api.object;
 
 import me.memerator.api.MemeratorAPI;
 import me.memerator.api.errors.*;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -70,5 +72,30 @@ public class Profile extends User {
             rateLimited.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * @return your notifications
+     * @throws Unauthorized if your api key cannot access the endpoint
+     * @throws RateLimited if you hit the rate limit
+     * @throws InvalidToken if your token is invalid
+     * @throws NotFound if the notification endpoint somehow disappears
+     * @throws InternalServerError if a server side error occurs
+     */
+    public Notification[] getNotifications() throws Unauthorized, RateLimited, InvalidToken, InternalServerError, NotFound {
+        JSONArray notificationsraw = new JSONArray(MemeratorAPI.api.get("/notifications"));
+        ArrayList<Comment> notifications = new ArrayList<>();
+        for(int i = 0; i < notificationsraw.length(); i++) {
+            notifications.add(new Comment((JSONObject) notificationsraw.get(i)));
+        }
+        Notification[] comm = new Notification[0];
+        return notifications.toArray(comm);
+    }
+
+    /**
+     * @return your amount of notifications
+     */
+    public int getNotificationCount() throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError {
+        return new JSONObject(MemeratorAPI.api.get("/notifications/count")).getInt("count");
     }
 }
