@@ -2,6 +2,8 @@ package me.memerator.api.object;
 
 import org.json.JSONObject;
 
+import java.time.Instant;
+
 public class Meme {
     JSONObject values;
 
@@ -47,10 +49,10 @@ public class Meme {
     }
 
     /**
-     * @return [String] the time this meme was submitted.
+     * @return The timestamp as an instant
      */
-    public String getTimestamp() {
-        return values.getString("timestamp");
+    public Instant getTimestamp() {
+        return Instant.ofEpochSecond(values.getLong("timestamp_epoch_seconds"));
     }
 
     /**
