@@ -2,6 +2,8 @@ package me.memerator.api.object;
 
 import org.json.JSONObject;
 
+import java.time.Instant;
+
 public class User {
     JSONObject values;
 
@@ -88,8 +90,18 @@ public class User {
 
     /**
      * @return (String) the user's join time
+     * @deprecated
+     * @see getJoinTimestamp()
      */
     public String getJoinedAt() {
         return values.getString("joined");
+    }
+
+
+    /**
+     * @return the user's join timestamp
+     */
+    public Instant getJoinTimestamp() {
+        return Instant.ofEpochSecond(values.getLong("joined_epoch_seconds"));
     }
 }
