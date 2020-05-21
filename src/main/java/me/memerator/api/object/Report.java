@@ -3,7 +3,7 @@ package me.memerator.api.object;
 import org.json.JSONObject;
 
 /**
- * A report!
+ * A report on Memerator
  */
 public class Report {
     JSONObject values;
@@ -13,7 +13,7 @@ public class Report {
     }
 
     /**
-     * @return [Integer] the report ID.
+     * @return the report ID.
      */
     public int getReportId() {
         return values.getInt("id");
@@ -24,35 +24,35 @@ public class Report {
      * Status 0 means it's open and unclaimed
      * Status 1 means it's claimed, but not settled.
      * Status 2 means it's resolved.
-     * @return [Integer] the status.
+     * @return the status.
      */
     public int getStatusCode() {
         return values.getInt("status");
     }
 
     /**
-     * @return [String] the ID of the meme being reported.
+     * @return the ID of the meme being reported.
      */
     public String getAssociatedMemeId() {
         return values.getString("memeid");
     }
 
     /**
-     * @return [String] the reason for the report.
+     * @return the reason for the report.
      */
     public String getReason() {
         return values.getJSONObject("message").getString("reason");
     }
 
     /**
-     * @return [String] more detailed explanation
+     * @return more detailed explanation
      */
     public String getDescription() {
         return values.getJSONObject("message").getString("description");
     }
 
     /**
-     * @return [User, nil] the staff member assigned to this report, if one is assigned
+     * @return the staff member assigned to this report, if one is assigned
      */
     public User getAssignee() {
         if(values.get("assignee") == null) {
@@ -63,28 +63,28 @@ public class Report {
     }
 
     /**
-     * @return [String, nil] the staff member's comment, if they responded.
+     * @return the staff member's comment, if they responded.
      */
     public String getStaffComment() {
         return values.getString("comment");
     }
 
     /**
-     * @return [true, false] if the report is open
+     * @return if the report is open
      */
     public boolean isOpen() {
         return getStatusCode() == 0;
     }
 
     /**
-     * @return [true, false] if the report is assigned to someone
+     * @return if the report is assigned to someone
      */
     public boolean isAssigned() {
         return getStatusCode() == 0;
     }
 
     /**
-     * @return [true, false] if the report is closed
+     * @return if the report is closed
      */
     public boolean isClosed() {
         return getStatusCode() == 2;

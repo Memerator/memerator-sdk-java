@@ -12,21 +12,21 @@ public class User {
     }
 
     /**
-     * @return (String) the user"s username
+     * @return the user's username
      */
     public String getUsername() {
         return values.getString("username");
     }
 
     /**
-     * @return (Long) the user"s ID
+     * @return the user's ID
      */
     public long getId() {
         return values.getLong("id");
     }
 
     /**
-     * @return (String) the user"s bio
+     * @return the user's bio or null if there isn't one
      */
     public String getBio() {
         try {
@@ -37,63 +37,63 @@ public class User {
     }
 
     /**
-     * @return (Integer) the amount of followers this user has
+     * @return the amount of followers this user has
      */
     public int getFollowerCount() {
         return values.getJSONObject("stats").getInt("followers");
     }
 
     /**
-     * @return (Integer) the amount of users this user is following
+     * @return the amount of users this user is following
      */
     public int getFollowingCount() {
         return values.getJSONObject("stats").getInt("following");
     }
 
     /**
-     * @return (Integer) the amount of memes this user has
+     * @return the amount of memes this user has
      */
     public int getMemeCount() {
         return values.getJSONObject("stats").getInt("memes");
     }
 
     /**
-     * @return (true, false) the user"s verification status
+     * @return the user's verification status
      */
     public boolean isVerified() {
         return values.getJSONObject("perks").getBoolean("verified");
     }
 
     /**
-     * @return (true, false) the user"s staff member status
+     * @return the user's staff member status
      */
     public boolean isStaff() {
         return values.getJSONObject("perks").getBoolean("staff");
     }
 
     /**
-     * @return (true, false) the user"s translator status
+     * @return the user's translator status
      */
     public boolean isTranslator() {
         return values.getJSONObject("perks").getBoolean("translator");
     }
 
     /**
-     * @return (true, false) the user"s pro status
+     * @return the user's pro status
      */
     public boolean isPro() {
         return values.getJSONObject("perks").getBoolean("pro");
     }
 
     /**
-     * @return (String) the user"s profile link
+     * @return the user's profile link
      */
     public String getProfileUrl() {
         return values.getString("permalink");
     }
 
     /**
-     * @return (String) the user's join time
+     * @return the user's join time
      * @deprecated
      * @see User#getJoinTimestamp()
      */
