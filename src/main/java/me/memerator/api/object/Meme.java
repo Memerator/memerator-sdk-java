@@ -28,7 +28,11 @@ public class Meme {
      * @return [String, null] the caption, if there is one.
      */
     public String getCaption() {
-        return values.getString("caption");
+        if(values.get("caption") == null) {
+            return null;
+        } else {
+            return values.getString("caption");
+        }
     }
 
     /**
