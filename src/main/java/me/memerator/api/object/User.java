@@ -29,7 +29,11 @@ public class User {
      * @return (String) the user"s bio
      */
     public String getBio() {
-        return values.getString("bio");
+        try {
+            return values.getString("bio");
+        } catch (org.json.JSONException e) {
+            return null;
+        }
     }
 
     /**
