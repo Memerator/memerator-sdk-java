@@ -1,11 +1,13 @@
 package me.memerator.api;
 
 import me.memerator.api.errors.*;
-import me.memerator.api.object.Meme;
-import me.memerator.api.object.Profile;
-import me.memerator.api.object.Stats;
-import me.memerator.api.object.User;
+import me.memerator.api.object.*;
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 
 public final class MemeratorAPI {
     public static String token;
@@ -46,5 +48,15 @@ public final class MemeratorAPI {
 
     public Meme getRandomMeme() throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError {
         return new Meme(new JSONObject(getAPI().get("meme/random")));
+    }
+
+    public Meme[] searchMemes(String query) throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError, UnsupportedEncodingException {
+        JSONArray memeresponse = new JSONArray(getAPI().get("meme/search?search=" + URLEncoder.encode(query, "UTF-8")));
+        ArrayList<Meme> memes = new ArrayList<>();
+        for(int i = 0; i < memeresponse.length(); i++) {
+            memes.add(new Meme((JSONObject) memeresponse.get(i)));
+        }
+        Meme[] meme = new Meme[0];
+        return memes.toArray(meme);
     }
 }
