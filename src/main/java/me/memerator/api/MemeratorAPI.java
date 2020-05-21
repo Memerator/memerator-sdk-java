@@ -52,11 +52,15 @@ public final class MemeratorAPI {
 
     public Meme[] searchMemes(String query) throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError, UnsupportedEncodingException {
         JSONArray memeresponse = new JSONArray(getAPI().get("meme/search?search=" + URLEncoder.encode(query, "UTF-8")));
-        ArrayList<Meme> memes = new ArrayList<>();
-        for(int i = 0; i < memeresponse.length(); i++) {
-            memes.add(new Meme((JSONObject) memeresponse.get(i)));
+        if(memeresponse.length() > 0) {
+            ArrayList<Meme> memes = new ArrayList<>();
+            for(int i = 0; i < memeresponse.length(); i++) {
+                memes.add(new Meme((JSONObject) memeresponse.get(i)));
+            }
+            Meme[] meme = new Meme[0];
+            return memes.toArray(meme);
+        } else {
+            return new Meme[]{};
         }
-        Meme[] meme = new Meme[0];
-        return memes.toArray(meme);
     }
 }
