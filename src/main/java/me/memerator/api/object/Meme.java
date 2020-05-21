@@ -28,10 +28,10 @@ public class Meme {
      * @return [String, null] the caption, if there is one.
      */
     public String getCaption() {
-        if(values.get("caption") == null) {
-            return null;
-        } else {
+        try {
             return values.getString("caption");
+        } catch (org.json.JSONException e) {
+            return null;
         }
     }
 
