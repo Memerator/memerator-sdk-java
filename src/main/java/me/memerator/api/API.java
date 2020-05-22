@@ -39,6 +39,16 @@ public class API {
         return performRequest(request);
     }
 
+    public String put(String path, HashMap<String, Object> args) throws RateLimited, InvalidToken, NotFound, Unauthorized, InternalServerError {
+        Request request = new Request.Builder()
+                .url(baseUrl + path)
+                .put(bodyFromHash(args))
+                .addHeader("Authorization", key)
+                .build();
+
+        return performRequest(request);
+    }
+
     public String patch(String path, HashMap<String, Object> args) throws RateLimited, InvalidToken, NotFound, Unauthorized, InternalServerError {
         Request request = new Request.Builder()
                 .url(baseUrl + path)

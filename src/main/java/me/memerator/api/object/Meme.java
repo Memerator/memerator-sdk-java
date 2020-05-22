@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Meme {
     JSONObject values;
@@ -148,5 +149,32 @@ public class Meme {
         } else {
             return "Mature";
         }
+    }
+
+    /**
+     * Disables this meme. Meme owner only.
+     */
+    public void disable() throws InvalidToken, RateLimited, NotFound, Unauthorized, InternalServerError {
+        MemeratorAPI.api.put("meme/" + getMemeId() + "/disable", new HashMap<>());
+        values.put("disabled", true);
+    }
+
+    /**
+     * Enable this meme. Meme owner only.
+     */
+    public void enable() throws InvalidToken, RateLimited, NotFound, Unauthorized, InternalServerError {
+        MemeratorAPI.api.put("meme/" + getMemeId() + "/enable", new HashMap<>());
+        values.put("disabled", false);
+    }
+
+    /**
+     * Set the caption
+     * @param newcaption the caption to set
+     */
+    public void setCaption(String newcaption) throws InvalidToken, RateLimited, NotFound, Unauthorized, InternalServerError {
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("caption", newcaption);
+        MemeratorAPI.api.put("meme/" + getMemeId() + "/caption", body);
+        values.put("caption", newcaption);
     }
 }
