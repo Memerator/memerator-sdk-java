@@ -83,15 +83,15 @@ public class API {
                 case 400:
                     throw new IllegalArgumentException("1 or more arguments were invalid");
                 case 401:
-                    throw new InvalidToken("Your API Token is invalid or can't access this endpoint or object.");
+                    throw new InvalidToken("Your API token failed authentication.");
                 case 403:
-                    throw new Unauthorized("Your API token can't access this object or endpoint");
+                    throw new Unauthorized("Your API token is valid, however it can't access this object.");
                 case 404:
-                    throw new NotFound("That object doesn't exist!");
+                    throw new NotFound("That object or endpoint doesn't exist!");
                 case 429:
                     throw new RateLimited("You have reached the rate limit!");
                 case 500:
-                    throw new InternalServerError("A server side error occured while performing this request. Please try again later!");
+                    throw new InternalServerError("A server side error occurred while performing this request. Please try again later!");
             }
             return response.body().string();
         } catch (IOException e) {
