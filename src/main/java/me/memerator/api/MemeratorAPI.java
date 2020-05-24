@@ -22,6 +22,11 @@ public final class MemeratorAPI {
         return token;
     }
 
+    public void setToken(String newToken) {
+        token = newToken;
+        api = new API(newToken);
+    }
+
     public API getAPI() {
         return api;
     }
