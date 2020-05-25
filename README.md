@@ -9,19 +9,19 @@ Maven:
 First, you need Chew's Jenkins repository
 ```xml
 <repository>
-  <id>chew-jenkins</id>
-  <url>https://jenkins.chew.pw/plugin/repository/everything/</url>
+    <id>chew-jenkins</id>
+    <url>https://jenkins.chew.pw/plugin/repository/everything/</url>
 </repository>
 ```
 Then, you'll need to install the build you want. All are considered dev builds unless otherwise specified in a [Release](https://github.com/Memerator/memerator-sdk-java/releases).
 
-Replace <version>[this]</version> with the latest build found on [the Jenkins page](https://jenkins.chew.pw/job/memerator-sdk-java/lastSuccessfulBuild/). See MemeratorAPI-[version string].jar.
+Replace `<version>[this]</version>` with the latest build found on [the Jenkins page](https://jenkins.chew.pw/job/memerator-sdk-java/lastSuccessfulBuild/). See MemeratorAPI-[version string].jar.
 ```xml
 <!-- Memerator API -->
 <dependency>
-  <groupId>me.memerator.api</groupId>
-  <artifactId>MemeratorAPI</artifactId>
-  <version>0.1.0-b7</version>
+    <groupId>me.memerator.api</groupId>
+    <artifactId>MemeratorAPI</artifactId>
+    <version>[this]</version>
 </dependency>
 ```
 
