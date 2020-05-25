@@ -1,5 +1,6 @@
 package me.memerator.api;
 
+import me.memerator.api.entity.MaxAge;
 import me.memerator.api.errors.*;
 import me.memerator.api.object.*;
 import org.json.JSONArray;
@@ -52,7 +53,11 @@ public final class MemeratorAPI {
     }
 
     public Meme getRandomMeme() throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError {
-        return new Meme(new JSONObject(getAPI().get("meme/random")));
+        return new Meme(new JSONObject(getAPI().get("meme/random?age=2")));
+    }
+
+    public Meme getRandomMeme(MaxAge max) throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError {
+        return new Meme(new JSONObject(getAPI().get("meme/random?age=" + max.getAgeInt())));
     }
 
     public Meme[] searchMemes(String query) throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError, UnsupportedEncodingException {
