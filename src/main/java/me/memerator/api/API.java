@@ -72,7 +72,7 @@ public class API {
     public RequestBody bodyFromHash(HashMap<String, Object> args) {
         FormBody.Builder bodyArgs = new FormBody.Builder();
         for(Map.Entry<String, Object> entry : args.entrySet()) {
-            bodyArgs.add(entry.getKey(), (String) entry.getValue());
+            bodyArgs.add(entry.getKey(), String.valueOf(entry.getValue()));
         }
         return bodyArgs.build();
     }

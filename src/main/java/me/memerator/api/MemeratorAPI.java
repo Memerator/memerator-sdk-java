@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public final class MemeratorAPI {
     public static String token;
@@ -71,6 +72,14 @@ public final class MemeratorAPI {
             return memes.toArray(meme);
         } else {
             return new Meme[]{};
+        }
+    }
+
+    public Meme submitMeme(JSONObject meme) throws InvalidToken, RateLimited, NotFound, Unauthorized, InternalServerError {
+        if(meme.has("url")) {
+            return getMeme(new JSONObject(getAPI().post("/submit", (HashMap<String, Object>) meme.toMap())).getString("memeid"));
+        } else {
+            return getMeme(new JSONObject(getAPI().post("/submit_image", (HashMap<String, Object>) meme.toMap())).getString("memeid"));
         }
     }
 }
