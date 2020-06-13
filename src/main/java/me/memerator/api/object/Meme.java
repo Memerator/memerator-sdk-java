@@ -97,7 +97,7 @@ public class Meme {
     /**
      * @return the comments for this meme
      */
-    public Comment[] getComments() throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError {
+    public Comment[] getComments() {
         JSONArray commentsraw = new JSONArray(MemeratorAPI.api.get("/meme/" + getMemeId() + "/comments"));
         ArrayList<Comment> comments = new ArrayList<>();
         for(int i = 0; i < commentsraw.length(); i++) {
@@ -154,7 +154,7 @@ public class Meme {
     /**
      * Disables this meme. Meme owner only.
      */
-    public void disable() throws InvalidToken, RateLimited, NotFound, Unauthorized, InternalServerError {
+    public void disable() {
         MemeratorAPI.api.put("meme/" + getMemeId() + "/disable", new HashMap<>());
         values.put("disabled", true);
     }
@@ -162,7 +162,7 @@ public class Meme {
     /**
      * Enable this meme. Meme owner only.
      */
-    public void enable() throws InvalidToken, RateLimited, NotFound, Unauthorized, InternalServerError {
+    public void enable() {
         MemeratorAPI.api.put("meme/" + getMemeId() + "/enable", new HashMap<>());
         values.put("disabled", false);
     }
@@ -171,7 +171,7 @@ public class Meme {
      * Set the caption
      * @param newcaption the caption to set
      */
-    public void setCaption(String newcaption) throws InvalidToken, RateLimited, NotFound, Unauthorized, InternalServerError {
+    public void setCaption(String newcaption) {
         HashMap<String, Object> body = new HashMap<>();
         body.put("caption", newcaption);
         MemeratorAPI.api.put("meme/" + getMemeId() + "/caption", body);

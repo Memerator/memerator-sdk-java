@@ -19,7 +19,7 @@ public class API {
         key = apiKey;
     }
 
-    public String get(String path) throws NotFound, InvalidToken, RateLimited, Unauthorized, InternalServerError {
+    public String get(String path) {
         Request request = new Request.Builder()
                 .url(baseUrl + path)
                 .get()
@@ -29,7 +29,7 @@ public class API {
         return performRequest(request);
     }
 
-    public String post(String path, HashMap<String, Object> args) throws RateLimited, InvalidToken, NotFound, Unauthorized, InternalServerError {
+    public String post(String path, HashMap<String, Object> args) {
         Request request = new Request.Builder()
                 .url(baseUrl + path)
                 .post(bodyFromHash(args))
@@ -39,7 +39,7 @@ public class API {
         return performRequest(request);
     }
 
-    public String put(String path, HashMap<String, Object> args) throws RateLimited, InvalidToken, NotFound, Unauthorized, InternalServerError {
+    public String put(String path, HashMap<String, Object> args) {
         Request request = new Request.Builder()
                 .url(baseUrl + path)
                 .put(bodyFromHash(args))
@@ -49,7 +49,7 @@ public class API {
         return performRequest(request);
     }
 
-    public String patch(String path, HashMap<String, Object> args) throws RateLimited, InvalidToken, NotFound, Unauthorized, InternalServerError {
+    public String patch(String path, HashMap<String, Object> args) {
         Request request = new Request.Builder()
                 .url(baseUrl + path)
                 .patch(bodyFromHash(args))
@@ -59,7 +59,7 @@ public class API {
         return performRequest(request);
     }
 
-    public String delete(String path) throws RateLimited, InvalidToken, NotFound, Unauthorized, InternalServerError {
+    public String delete(String path) {
         Request request = new Request.Builder()
                 .url(baseUrl + path)
                 .delete()
@@ -77,7 +77,7 @@ public class API {
         return bodyArgs.build();
     }
 
-    public String performRequest(Request request) throws NotFound, InvalidToken, RateLimited, Unauthorized, InternalServerError {
+    public String performRequest(Request request) {
         try (Response response = client.newCall(request).execute()) {
             switch(response.code()) {
                 case 400:

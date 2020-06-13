@@ -33,7 +33,7 @@ public final class MemeratorAPI {
         return api;
     }
 
-    public Meme getMeme(String id) throws Unauthorized, RateLimited, InvalidToken, InternalServerError, NotFound {
+    public Meme getMeme(String id) {
         try {
             return new Meme(new JSONObject(getAPI().get("meme/" + id)));
         } catch (NotFound notFound) {
@@ -41,27 +41,27 @@ public final class MemeratorAPI {
         }
     }
 
-    public User getUser(String username) throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError {
+    public User getUser(String username) {
         return new User(new JSONObject(getAPI().get("profile/" + username)));
     }
 
-    public Profile getProfile() throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError {
+    public Profile getProfile() {
         return new Profile(new JSONObject(getAPI().get("profile/me")));
     }
 
-    public Stats getStats() throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError {
+    public Stats getStats() {
         return new Stats(new JSONObject(getAPI().get("stats")));
     }
 
-    public Meme getRandomMeme() throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError {
+    public Meme getRandomMeme() {
         return new Meme(new JSONObject(getAPI().get("meme/random?age=2")));
     }
 
-    public Meme getRandomMeme(MaxAge max) throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError {
+    public Meme getRandomMeme(MaxAge max) {
         return new Meme(new JSONObject(getAPI().get("meme/random?age=" + max.getAgeInt())));
     }
 
-    public Meme[] searchMemes(String query) throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError, UnsupportedEncodingException {
+    public Meme[] searchMemes(String query) throws UnsupportedEncodingException {
         JSONArray memeresponse = new JSONArray(getAPI().get("meme/search?search=" + URLEncoder.encode(query, "UTF-8")));
         if(memeresponse.length() > 0) {
             ArrayList<Meme> memes = new ArrayList<>();
@@ -75,7 +75,7 @@ public final class MemeratorAPI {
         }
     }
 
-    public Meme submitMeme(JSONObject meme) throws InvalidToken, RateLimited, NotFound, Unauthorized, InternalServerError {
+    public Meme submitMeme(JSONObject meme) {
         if(meme.has("url")) {
             return getMeme(new JSONObject(getAPI().post("/submit", (HashMap<String, Object>) meme.toMap())).getString("memeid"));
         } else {

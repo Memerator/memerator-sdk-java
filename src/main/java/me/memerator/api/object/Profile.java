@@ -82,7 +82,7 @@ public class Profile extends User {
      * @throws NotFound if the notification endpoint somehow disappears
      * @throws InternalServerError if a server side error occurs
      */
-    public Notification[] getNotifications() throws Unauthorized, RateLimited, InvalidToken, InternalServerError, NotFound {
+    public Notification[] getNotifications() {
         JSONArray notificationsraw = new JSONArray(MemeratorAPI.api.get("/notifications"));
         ArrayList<Notification> notifications = new ArrayList<>();
         for(int i = 0; i < notificationsraw.length(); i++) {
@@ -95,7 +95,7 @@ public class Profile extends User {
     /**
      * @return your amount of notifications
      */
-    public int getNotificationCount() throws Unauthorized, RateLimited, InvalidToken, NotFound, InternalServerError {
+    public int getNotificationCount() {
         return new JSONObject(MemeratorAPI.api.get("/notifications/count")).getInt("count");
     }
 }

@@ -92,7 +92,7 @@ public class Notification {
     /**
      * Deletes this notification
      */
-    public void delete() throws InvalidToken, RateLimited, NotFound, Unauthorized, InternalServerError {
+    public void delete() {
         MemeratorAPI.api.delete("/notification/" + getNotificationId());
     }
 }
