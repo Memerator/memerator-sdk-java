@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public final class MemeratorAPI {
     public static String token;
@@ -105,17 +106,16 @@ public final class MemeratorAPI {
      * @return an Array of Memes. Can be empty, never null.
      * @throws UnsupportedEncodingException this will never be thrown.
      */
-    public Meme[] searchMemes(String query) throws UnsupportedEncodingException {
+    public List<Meme> searchMemes(String query) throws UnsupportedEncodingException {
         JSONArray memeresponse = new JSONArray(getAPI().get("meme/search?search=" + URLEncoder.encode(query, "UTF-8")));
         if(memeresponse.length() > 0) {
             ArrayList<Meme> memes = new ArrayList<>();
             for(int i = 0; i < memeresponse.length(); i++) {
                 memes.add(new Meme((JSONObject) memeresponse.get(i)));
             }
-            Meme[] meme = new Meme[0];
-            return memes.toArray(meme);
+            return memes;
         } else {
-            return new Meme[]{};
+            return new ArrayList<>();
         }
     }
 

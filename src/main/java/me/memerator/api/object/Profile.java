@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * A profile is a user, but has more details.
@@ -82,14 +83,13 @@ public class Profile extends User {
      * @throws NotFound if the notification endpoint somehow disappears
      * @throws InternalServerError if a server side error occurs
      */
-    public Notification[] getNotifications() {
+    public List<Notification> getNotifications() {
         JSONArray notificationsraw = new JSONArray(MemeratorAPI.api.get("/notifications"));
         ArrayList<Notification> notifications = new ArrayList<>();
         for(int i = 0; i < notificationsraw.length(); i++) {
             notifications.add(new Notification((JSONObject) notificationsraw.get(i)));
         }
-        Notification[] noti = new Notification[0];
-        return notifications.toArray(noti);
+        return notifications;
     }
 
     /**

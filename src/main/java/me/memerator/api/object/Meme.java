@@ -1,13 +1,13 @@
 package me.memerator.api.object;
 
 import me.memerator.api.MemeratorAPI;
-import me.memerator.api.errors.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Meme {
     JSONObject values;
@@ -97,14 +97,13 @@ public class Meme {
     /**
      * @return the comments for this meme
      */
-    public Comment[] getComments() {
+    public List<Comment> getComments() {
         JSONArray commentsraw = new JSONArray(MemeratorAPI.api.get("/meme/" + getMemeId() + "/comments"));
         ArrayList<Comment> comments = new ArrayList<>();
         for(int i = 0; i < commentsraw.length(); i++) {
             comments.add(new Comment((JSONObject) commentsraw.get(i)));
         }
-        Comment[] comm = new Comment[0];
-        return comments.toArray(comm);
+        return comments;
     }
 
     /**
