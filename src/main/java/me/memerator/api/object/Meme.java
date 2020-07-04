@@ -1,5 +1,6 @@
 package me.memerator.api.object;
 
+import org.jetbrains.annotations.Nullable;
 import me.memerator.api.MemeratorAPI;
 import me.memerator.api.entity.MaxAge;
 import org.json.JSONArray;
@@ -20,15 +21,16 @@ public class Meme {
     // @group Meme Information Methods
 
     /**
-     * @return [String] the meme's ID.
+     * @return the meme's ID.
      */
     public String getMemeId() {
         return values.getString("memeid");
     }
 
     /**
-     * @return [String, null] the caption, if there is one.
+     * @return the caption, if there is one.
      */
+    @Nullable
     public String getCaption() {
         try {
             return values.getString("caption");
@@ -38,21 +40,21 @@ public class Meme {
     }
 
     /**
-     * @return [String] the URL of the image.
+     * @return the URL of the image.
      */
     public String getImageUrl() {
         return values.getString("url");
     }
 
     /**
-     * @return [int] the total amount of ratings.
+     * @return the total amount of ratings.
      */
     public int getTotalRatings() {
         return values.getJSONObject("rating").getInt("total");
     }
 
     /**
-     * @return [Float] the average rating.
+     * @return the average rating.
      */
     public Float getAverageRating() {
         return values.getJSONObject("rating").getFloat("average");
@@ -73,14 +75,14 @@ public class Meme {
     }
 
     /**
-     * @return [User] the author of this meme
+     * @return the author of this meme
      */
     public User getAuthor() {
         return new User(values.getJSONObject("author"));
     }
 
     /**
-     * @return [String] the URL to the meme
+     * @return the URL to the meme
      */
     public String getMemeUrl() {
         return values.getString("permalink");
@@ -89,7 +91,7 @@ public class Meme {
     /**
      * Usually, the only people who can see disabled memes are Staff and the owners of the meme.
      * This will most likely always be false.
-     * @return [true, false] the meme disabled status.
+     * @return the meme disabled status.
      */
     public boolean isDisabled() {
         return values.getBoolean("disabled");
@@ -108,9 +110,9 @@ public class Meme {
     }
 
     /**
-     * 1 => Family Friendly
-     * 2 => Teen
-     * 4 => Mature
+     * 1 = Family Friendly
+     * 2 = Teen
+     * 4 = Mature
      * @return the age rating
      */
     public int getAgeRating() {

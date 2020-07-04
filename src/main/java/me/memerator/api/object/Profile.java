@@ -42,7 +42,9 @@ public class Profile extends User {
      *   Not taken
      *   Can't be only numbers
      *   No characters other than letters, numbers, periods, and underscores.
+     * If you are verified, you will lose verification.
      * @return true if it changed successfully
+     * @param username the username to change to
      * Throws IllegalArgumentException if the requirements weren't met
      */
     public boolean setUsername(String username) {
@@ -60,6 +62,7 @@ public class Profile extends User {
 
     /**
      * Set your bio
+     * @param bio the new bio to set
      * @return true if it changed successfully
      */
     public boolean setBio(String bio) {
