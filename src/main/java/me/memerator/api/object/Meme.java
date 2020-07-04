@@ -1,6 +1,7 @@
 package me.memerator.api.object;
 
 import me.memerator.api.MemeratorAPI;
+import me.memerator.api.entity.MaxAge;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -114,6 +115,14 @@ public class Meme {
      */
     public int getAgeRating() {
         return values.getInt("age");
+    }
+
+    /**
+     * Returns the Age as a MaxAge enum
+     * @return the MaxAge
+     */
+    public MaxAge getAgeAsMaxAge() {
+        return MaxAge.fromAge(getAgeRating());
     }
 
     /**

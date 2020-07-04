@@ -26,7 +26,7 @@ public enum MaxAge {
         return age;
     }
 
-    public MaxAge fromAge(int age) {
+    public static MaxAge fromAge(int age) {
         switch (age) {
             case 1:
                 return FAMILY_FRIENDLY;
