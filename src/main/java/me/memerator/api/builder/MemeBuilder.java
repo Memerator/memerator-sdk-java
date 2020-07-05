@@ -20,7 +20,6 @@ public class MemeBuilder {
      * Sets the URL for the meme if uploading via URL. This or setImage() are required.
      * @param newUrl the URL of the meme
      * @deprecated
-     * @see MemeBuilder#setImageFromURL
      */
     public void setUrl(String newUrl) {
         completed = true;
