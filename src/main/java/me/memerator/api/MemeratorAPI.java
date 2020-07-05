@@ -136,9 +136,9 @@ public final class MemeratorAPI {
     /**
      * Returns a list of hashmap with 3 items
      * Each item is time frame as key and a list of top memers as the value
-     * 1d -> Top for the past day
-     * 7d -> Top for the past week
-     * 1mo -> Top for the past month
+     * 1d = Top for the past day
+     * 7d = Top for the past week
+     * 1mo = Top for the past month
      * @return the top memers
      */
     public Map<String, List<TopMemer>> getTopMemers() {
