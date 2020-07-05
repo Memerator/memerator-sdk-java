@@ -2,6 +2,7 @@ package me.memerator.api.object;
 
 import me.memerator.api.MemeratorAPI;
 import me.memerator.api.errors.*;
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -24,6 +25,7 @@ public class Profile extends User {
     /**
      * @return the time when your Pro subscription expires, if you have one
      */
+    @Nullable
     public String getProExpirationDate() {
         return values.getJSONObject("pro").getString("expires");
     }
@@ -31,6 +33,7 @@ public class Profile extends User {
     /**
      * @return the time when your Pro subscription started, if you have one
      */
+    @Nullable
     public String getProStartDate() {
         return values.getJSONObject("pro").getString("since");
     }
@@ -50,39 +53,25 @@ public class Profile extends User {
      *   Can't be only numbers
      *   No characters other than letters, numbers, periods, and underscores.
      * If you are verified, you will lose verification.
-     * @return true if it changed successfully
      * @param username the username to change to
      * Throws IllegalArgumentException if the requirements weren't met
      */
-    public boolean setUsername(String username) {
+    public void setUsername(String username) {
         HashMap<String, Object> body = new HashMap<>();
         body.put("username", username);
 
-        try {
-            MemeratorAPI.api.post("profile/me", body);
-            return true;
-        } catch (RateLimited | InvalidToken | NotFound | Unauthorized | InternalServerError rateLimited) {
-            rateLimited.printStackTrace();
-        }
-        return false;
+        MemeratorAPI.api.post("profile/me", body);
     }
 
     /**
      * Set your bio
      * @param bio the new bio to set
-     * @return true if it changed successfully
      */
-    public boolean setBio(String bio) {
+    public void setBio(String bio) {
         HashMap<String, Object> body = new HashMap<>();
         body.put("bio", bio);
 
-        try {
-            MemeratorAPI.api.post("profile/me", body);
-            return true;
-        } catch (RateLimited | InvalidToken | NotFound | Unauthorized | InternalServerError rateLimited) {
-            rateLimited.printStackTrace();
-        }
-        return false;
+        MemeratorAPI.api.post("profile/me", body);
     }
 
     /**
