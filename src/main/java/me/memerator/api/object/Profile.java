@@ -101,4 +101,16 @@ public class Profile extends User {
     public int getNotificationCount() {
         return new JSONObject(MemeratorAPI.api.get("/notifications/count")).getInt("count");
     }
+
+    /**
+     * @return a list of your memes
+     */
+    public List<Meme> getMemes() {
+        JSONArray response = new JSONArray(MemeratorAPI.api.get("/mymemes"));
+        List<Meme> memes = new ArrayList<>();
+        for(int i = 0; i < response.length(); i++) {
+            memes.add(new Meme((JSONObject) response.get(i)));
+        }
+        return memes;
+    }
 }
