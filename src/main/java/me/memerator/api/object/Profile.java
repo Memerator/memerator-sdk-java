@@ -36,6 +36,13 @@ public class Profile extends User {
     }
 
     /**
+     * @return if you have an active pro subscription
+     */
+    public boolean isProActive() {
+        return values.getJSONObject("pro").getBoolean("active");
+    }
+
+    /**
      * Set your username
      * Username requirements:
      *   Be between 2 and 32 characters
