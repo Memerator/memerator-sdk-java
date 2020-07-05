@@ -12,7 +12,7 @@ import java.util.Map;
 public class API {
     private static OkHttpClient client;
     private static String key;
-    public static final String baseUrl = "http://localhost:3750/v1/";
+    public static final String baseUrl = "https://api.memerator.me/v1/";
 
     public API(String apiKey) {
         client = new OkHttpClient();
