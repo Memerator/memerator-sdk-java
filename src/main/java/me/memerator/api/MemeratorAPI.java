@@ -11,6 +11,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public final class MemeratorAPI {
     public static String token;
@@ -130,5 +131,37 @@ public final class MemeratorAPI {
         } else {
             return getMeme(new JSONObject(getAPI().post("/submit_image", (HashMap<String, Object>) meme.toMap())).getString("memeid"));
         }
+    }
+
+    /**
+     * Returns a list of hashmap with 3 items
+     * Each item is time frame as key and a list of top memers as the value
+     * 1d -> Top for the past day
+     * 7d -> Top for the past week
+     * 1mo -> Top for the past month
+     * @return the top memers
+     */
+    public Map<String, List<TopMemer>> getTopMemers() {
+        JSONObject response = new JSONObject(getAPI().get("topmemers"));
+        JSONArray oneDay = response.getJSONArray("1d");
+        List<TopMemer> oneDayList = new ArrayList<>();
+        for(Object user : oneDay) {
+            oneDayList.add(new TopMemer((JSONObject) user));
+        }
+        JSONArray oneWeek = response.getJSONArray("7d");
+        List<TopMemer> oneWeekList = new ArrayList<>();
+        for(Object user : oneWeek) {
+            oneWeekList.add(new TopMemer((JSONObject) user));
+        }
+        JSONArray oneMonth = response.getJSONArray("1mo");
+        List<TopMemer> oneMonthList = new ArrayList<>();
+        for(Object user : oneMonth) {
+            oneMonthList.add(new TopMemer((JSONObject) user));
+        }
+        Map<String, List<TopMemer>> tops = new HashMap<>();
+        tops.put("1d", oneDayList);
+        tops.put("7d", oneWeekList);
+        tops.put("1mo", oneMonthList);
+        return tops;
     }
 }
