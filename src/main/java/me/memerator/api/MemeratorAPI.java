@@ -150,7 +150,7 @@ public final class MemeratorAPI {
     /**
      * Get the specified amount (up to 25) of recent memes at a specific offset.
      * @param amount the amount of memes to get
-     * @param offset the offset, anywhere from 0 <= x <= total memes
+     * @param offset the offset, anywhere from 0 to the total amount of memes.
      * @return the memes
      */
     public List<Meme> getRecentMemes(int amount, int offset) {
