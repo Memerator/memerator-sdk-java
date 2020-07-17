@@ -109,4 +109,12 @@ public class Profile extends User {
         }
         return memes;
     }
+
+    /**
+     * Returns as a UserIntegrations object, from there you can get each integration type.
+     * @return the integrations.
+     */
+    public UserIntegrations getIntegrations() {
+        return new UserIntegrations(new JSONObject(MemeratorAPI.api.get("/integrations")));
+    }
 }
