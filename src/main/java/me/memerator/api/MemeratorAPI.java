@@ -121,6 +121,48 @@ public final class MemeratorAPI {
     }
 
     /**
+     * Get the 25 most recent memes
+     * @return a list of Memes
+     */
+    public List<Meme> getRecentMemes() {
+        JSONArray memeresponse = new JSONArray(getAPI().get("meme/recents"));
+        ArrayList<Meme> memes = new ArrayList<>();
+        for(int i = 0; i < memeresponse.length(); i++) {
+            memes.add(new Meme((JSONObject) memeresponse.get(i)));
+        }
+        return memes;
+    }
+
+    /**
+     * Get the specified amount of recent memes, up to 25.
+     * @param amount the amount of memes to get
+     * @return the memes
+     */
+    public List<Meme> getRecentMemes(int amount) {
+        JSONArray memeresponse = new JSONArray(getAPI().get("meme/recents?amount=" + amount));
+        ArrayList<Meme> memes = new ArrayList<>();
+        for(int i = 0; i < memeresponse.length(); i++) {
+            memes.add(new Meme((JSONObject) memeresponse.get(i)));
+        }
+        return memes;
+    }
+
+    /**
+     * Get the specified amount (up to 25) of recent memes at a specific offset.
+     * @param amount the amount of memes to get
+     * @param offset the offset, anywhere from 0 <= x <= total memes
+     * @return the memes
+     */
+    public List<Meme> getRecentMemes(int amount, int offset) {
+        JSONArray memeresponse = new JSONArray(getAPI().get("meme/recents?amount=" + amount + "&offset=" + offset));
+        ArrayList<Meme> memes = new ArrayList<>();
+        for(int i = 0; i < memeresponse.length(); i++) {
+            memes.add(new Meme((JSONObject) memeresponse.get(i)));
+        }
+        return memes;
+    }
+
+    /**
      * Submit a meme. See MemeBuilder class.
      * @param meme a prepared Meme
      * @return the submitted Meme.
