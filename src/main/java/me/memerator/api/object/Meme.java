@@ -162,6 +162,21 @@ public class Meme {
     }
 
     /**
+     * Gets the ratings on this meme.
+     * Requirements for a response:
+     *   1) Be Pro
+     *   2) Be the owner of the meme
+     * @return a list of ratings
+     */
+    public List<Rating> getRatings() {
+        JSONArray ratings = new JSONArray(MemeratorAPI.api.get("meme/" + getMemeId() + "/ratings"));
+        List<Rating> response = new ArrayList<>();
+        for(Object rating : ratings)
+            response.add(new Rating((JSONObject) rating, this));
+        return response;
+    }
+
+    /**
      * Disables this meme. Meme owner only.
      */
     public void disable() {
