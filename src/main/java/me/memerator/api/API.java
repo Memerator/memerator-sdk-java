@@ -2,8 +2,6 @@ package me.memerator.api;
 
 import me.memerator.api.errors.*;
 import okhttp3.*;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,7 +24,15 @@ public class API {
                 .addHeader("Authorization", key)
                 .build();
 
-        return performRequest(request);
+        try {
+            ResponseBody body = performRequest(request).body();
+            if(body == null)
+                return null;
+            return body.string();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public String post(String path, HashMap<String, Object> args) {
@@ -36,7 +42,15 @@ public class API {
                 .addHeader("Authorization", key)
                 .build();
 
-        return performRequest(request);
+        try {
+            ResponseBody body = performRequest(request).body();
+            if(body == null)
+                return null;
+            return body.string();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public String put(String path, HashMap<String, Object> args) {
@@ -46,7 +60,15 @@ public class API {
                 .addHeader("Authorization", key)
                 .build();
 
-        return performRequest(request);
+        try {
+            ResponseBody body = performRequest(request).body();
+            if(body == null)
+                return null;
+            return body.string();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public String patch(String path, HashMap<String, Object> args) {
@@ -56,7 +78,15 @@ public class API {
                 .addHeader("Authorization", key)
                 .build();
 
-        return performRequest(request);
+        try {
+            ResponseBody body = performRequest(request).body();
+            if(body == null)
+                return null;
+            return body.string();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public String delete(String path) {
@@ -66,7 +96,15 @@ public class API {
                 .addHeader("Authorization", key)
                 .build();
 
-        return performRequest(request);
+        try {
+            ResponseBody body = performRequest(request).body();
+            if(body == null)
+                return null;
+            return body.string();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public RequestBody bodyFromHash(HashMap<String, Object> args) {
@@ -77,7 +115,7 @@ public class API {
         return bodyArgs.build();
     }
 
-    public String performRequest(Request request) {
+    public Response performRequest(Request request) {
         try (Response response = client.newCall(request).execute()) {
             switch(response.code()) {
                 case 400:
@@ -93,18 +131,10 @@ public class API {
                 case 500:
                     throw new InternalServerError("A server side error occurred while performing this request. Please try again later!");
             }
-            return response.body().string();
+            return response;
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public JSONObject responseToJSONObject(String response) {
-        return new JSONObject(response);
-    }
-
-    public JSONArray responseToJSONArray(String response) {
-        return new JSONArray(response);
     }
 }
