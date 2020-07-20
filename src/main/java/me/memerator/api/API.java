@@ -24,15 +24,7 @@ public class API {
                 .addHeader("Authorization", key)
                 .build();
 
-        try {
-            ResponseBody body = performRequest(request).body();
-            if(body == null)
-                return null;
-            return body.string();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return performRequest(request);
     }
 
     public String post(String path, HashMap<String, Object> args) {
@@ -42,15 +34,7 @@ public class API {
                 .addHeader("Authorization", key)
                 .build();
 
-        try {
-            ResponseBody body = performRequest(request).body();
-            if(body == null)
-                return null;
-            return body.string();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return performRequest(request);
     }
 
     public String put(String path, HashMap<String, Object> args) {
@@ -60,15 +44,7 @@ public class API {
                 .addHeader("Authorization", key)
                 .build();
 
-        try {
-            ResponseBody body = performRequest(request).body();
-            if(body == null)
-                return null;
-            return body.string();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return performRequest(request);
     }
 
     public String patch(String path, HashMap<String, Object> args) {
@@ -78,15 +54,7 @@ public class API {
                 .addHeader("Authorization", key)
                 .build();
 
-        try {
-            ResponseBody body = performRequest(request).body();
-            if(body == null)
-                return null;
-            return body.string();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return performRequest(request);
     }
 
     public String delete(String path) {
@@ -96,15 +64,7 @@ public class API {
                 .addHeader("Authorization", key)
                 .build();
 
-        try {
-            ResponseBody body = performRequest(request).body();
-            if(body == null)
-                return null;
-            return body.string();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return performRequest(request);
     }
 
     public RequestBody bodyFromHash(HashMap<String, Object> args) {
@@ -115,7 +75,7 @@ public class API {
         return bodyArgs.build();
     }
 
-    public Response performRequest(Request request) {
+    public String performRequest(Request request) {
         try (Response response = client.newCall(request).execute()) {
             switch(response.code()) {
                 case 400:
@@ -131,7 +91,7 @@ public class API {
                 case 500:
                     throw new InternalServerError("A server side error occurred while performing this request. Please try again later!");
             }
-            return response;
+            return response.body().string();
         } catch (IOException e) {
             e.printStackTrace();
         }
