@@ -1,11 +1,11 @@
 package me.memerator.api.builder;
 
-import me.memerator.api.entity.MaxAge;
+import me.memerator.api.entity.Age;
 import org.json.JSONObject;
 
 public class MemeBuilder {
     private String url, base64data, caption = null;
-    private MaxAge age = MaxAge.TEEN;
+    private Age age = Age.TEEN;
     private int rating = 0;
     private boolean upload, completed;
 
@@ -52,7 +52,7 @@ public class MemeBuilder {
      * Sets the max age of the meme. By default is TEEN.
      * @param newAge the MaxAge to set.
      */
-    public void setAge(MaxAge newAge) {
+    public void setAge(Age newAge) {
         age = newAge;
     }
 
@@ -80,7 +80,7 @@ public class MemeBuilder {
         if(age != null)
             newMeme.put("age", age.getAgeInt());
         else
-            newMeme.put("age", MaxAge.TEEN.getAgeInt());
+            newMeme.put("age", Age.TEEN.getAgeInt());
         if(upload)
             newMeme.put("image", base64data);
         else

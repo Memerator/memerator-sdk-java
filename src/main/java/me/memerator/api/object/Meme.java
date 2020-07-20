@@ -2,7 +2,7 @@ package me.memerator.api.object;
 
 import org.jetbrains.annotations.Nullable;
 import me.memerator.api.MemeratorAPI;
-import me.memerator.api.entity.MaxAge;
+import me.memerator.api.entity.Age;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -110,55 +110,11 @@ public class Meme {
     }
 
     /**
-     * 1 = Family Friendly
-     * 2 = Teen
-     * 4 = Mature
-     * @return the age rating
+     * Returns the Age as an Age enum
+     * @return the Age
      */
-    public int getAgeRating() {
-        return values.getInt("age");
-    }
-
-    /**
-     * Returns the Age as a MaxAge enum
-     * @return the MaxAge
-     */
-    public MaxAge getAgeAsMaxAge() {
-        return MaxAge.fromAge(getAgeRating());
-    }
-
-    /**
-     * @return if the meme is family friendly (age == 1)
-     */
-    public boolean isFamilyFriendly() {
-        return getAgeRating() == 1;
-    }
-
-    /**
-     * @return if the meme is for teens (age == 2)
-     */
-    public boolean isTeen() {
-        return getAgeRating() == 2;
-    }
-
-    /**
-     * @return if the meme is mature (age == 4)
-     */
-    public boolean isMature() {
-        return getAgeRating() == 4;
-    }
-
-    /**
-     * @return the age string as it appears on the website
-     */
-    public String getAgeString() {
-        if(isFamilyFriendly()) {
-            return "Family Friendly";
-        } else if(isTeen()) {
-            return "Teen";
-        } else {
-            return "Mature";
-        }
+    public Age getAgeRating() {
+        return Age.fromInt(values.getInt("age"));
     }
 
     /**

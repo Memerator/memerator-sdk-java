@@ -1,6 +1,6 @@
 package me.memerator.api.entity;
 
-public enum MaxAge {
+public enum Age {
     /**
      * Sets the max age to 1. Family friendly memes only.
      */
@@ -18,7 +18,7 @@ public enum MaxAge {
 
     public final int age;
 
-    MaxAge(int age) {
+    Age(int age) {
         this.age = age;
     }
 
@@ -26,7 +26,7 @@ public enum MaxAge {
         return age;
     }
 
-    public static MaxAge fromAge(int age) {
+    public static Age fromInt(int age) {
         switch (age) {
             case 1:
                 return FAMILY_FRIENDLY;
@@ -36,5 +36,18 @@ public enum MaxAge {
                 return MATURE;
         }
         return null;
+    }
+
+    public String toString() {
+        switch(age) {
+            case (1):
+                return "Family Friendly";
+            case (2):
+                return "Teen";
+            case (4):
+                return "Mature";
+            default:
+                return "Unknown";
+        }
     }
 }

@@ -1,6 +1,6 @@
 package me.memerator.api;
 
-import me.memerator.api.entity.MaxAge;
+import me.memerator.api.entity.Age;
 import me.memerator.api.errors.*;
 import me.memerator.api.object.*;
 import org.json.JSONArray;
@@ -89,7 +89,7 @@ public final class MemeratorAPI {
      * @return a random meme
      */
     public Meme getRandomMeme() {
-        return getRandomMeme(MaxAge.TEEN);
+        return getRandomMeme(Age.TEEN);
     }
 
     /**
@@ -97,7 +97,7 @@ public final class MemeratorAPI {
      * @param max the maximum allowed age group.
      * @return a Meme.
      */
-    public Meme getRandomMeme(MaxAge max) {
+    public Meme getRandomMeme(Age max) {
         return new Meme(new JSONObject(getAPI().get("meme/random?age=" + max.getAgeInt())));
     }
 
