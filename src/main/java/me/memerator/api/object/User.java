@@ -1,8 +1,12 @@
 package me.memerator.api.object;
 
+import me.memerator.api.MemeratorAPI;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User {
     JSONObject values;
@@ -101,11 +105,22 @@ public class User {
         return values.getString("joined");
     }
 
-
     /**
      * @return the user's join timestamp
      */
     public Instant getJoinTimestamp() {
         return Instant.ofEpochSecond(values.getLong("joined_epoch_seconds"));
+    }
+
+    /**
+     * @return a list of this user's memes
+     */
+    public List<Meme> getMemes() {
+        JSONArray response = new JSONArray(MemeratorAPI.api.get("/profile/" + getId() + "/memes"));
+        List<Meme> memes = new ArrayList<>();
+        for(int i = 0; i < response.length(); i++) {
+            memes.add(new Meme((JSONObject) response.get(i)));
+        }
+        return memes;
     }
 }

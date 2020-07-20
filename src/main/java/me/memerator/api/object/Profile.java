@@ -99,18 +99,6 @@ public class Profile extends User {
     }
 
     /**
-     * @return a list of your memes
-     */
-    public List<Meme> getMemes() {
-        JSONArray response = new JSONArray(MemeratorAPI.api.get("/mymemes"));
-        List<Meme> memes = new ArrayList<>();
-        for(int i = 0; i < response.length(); i++) {
-            memes.add(new Meme((JSONObject) response.get(i)));
-        }
-        return memes;
-    }
-
-    /**
      * Returns as a UserIntegrations object, from there you can get each integration type.
      * @return the integrations.
      */
