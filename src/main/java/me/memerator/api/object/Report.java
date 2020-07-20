@@ -58,7 +58,7 @@ public class Report {
         if(values.get("assignee") == null) {
             return null;
         } else {
-            return new User(values.getJSONObject("sender"));
+            return new User(values.getJSONObject("assignee"));
         }
     }
 
