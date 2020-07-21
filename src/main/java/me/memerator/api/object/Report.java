@@ -1,5 +1,6 @@
 package me.memerator.api.object;
 
+import me.memerator.api.entity.ReportStatus;
 import org.json.JSONObject;
 
 /**
@@ -25,9 +26,19 @@ public class Report {
      * Status 1 means it's claimed, but not settled.
      * Status 2 means it's resolved.
      * @return the status.
+     * @deprecated
+     * @see Report#getStatus()
      */
     public int getStatusCode() {
         return values.getInt("status");
+    }
+
+    /**
+     * The status of the report.
+     * @return the status
+     */
+    public ReportStatus getStatus() {
+        return ReportStatus.fromInt(values.getInt("status"));
     }
 
     /**
@@ -71,6 +82,8 @@ public class Report {
 
     /**
      * @return if the report is open
+     * @deprecated
+     * @see Report#getStatus()
      */
     public boolean isOpen() {
         return getStatusCode() == 0;
@@ -78,6 +91,8 @@ public class Report {
 
     /**
      * @return if the report is assigned to someone
+     * @deprecated
+     * @see Report#getStatus()
      */
     public boolean isAssigned() {
         return getStatusCode() == 0;
@@ -85,6 +100,8 @@ public class Report {
 
     /**
      * @return if the report is closed
+     * @deprecated
+     * @see Report#getStatus()
      */
     public boolean isClosed() {
         return getStatusCode() == 2;

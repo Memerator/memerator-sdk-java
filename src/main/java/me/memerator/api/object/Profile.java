@@ -76,11 +76,6 @@ public class Profile extends User {
 
     /**
      * @return your notifications
-     * @throws Unauthorized if your api key cannot access the endpoint
-     * @throws RateLimited if you hit the rate limit
-     * @throws InvalidToken if your token is invalid
-     * @throws NotFound if the notification endpoint somehow disappears
-     * @throws InternalServerError if a server side error occurs
      */
     public List<Notification> getNotifications() {
         JSONArray notificationsraw = new JSONArray(MemeratorAPI.api.get("/notifications"));
@@ -89,6 +84,27 @@ public class Profile extends User {
             notifications.add(new Notification((JSONObject) notificationsraw.get(i)));
         }
         return notifications;
+    }
+
+    /**
+     * @return your reports
+     */
+    public List<Report> getReports() {
+        JSONArray reportResponse = new JSONArray(MemeratorAPI.api.get("/reports"));
+        ArrayList<Report> reports = new ArrayList<>();
+        for(int i = 0; i < reportResponse.length(); i++) {
+            reports.add(new Report((JSONObject) reportResponse.get(i)));
+        }
+        return reports;
+    }
+
+    /**
+     * Gets a specific report by ID
+     * @param id the report id
+     * @return the report
+     */
+    public Report getReport(int id) {
+        return new Report(new JSONObject(MemeratorAPI.api.get("/report/" + id)));
     }
 
     /**
