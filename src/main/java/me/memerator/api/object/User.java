@@ -90,6 +90,22 @@ public class User {
     }
 
     /**
+     * A service account is an account specifically for doing things for Memerator, and is not human owned.
+     * They don't have any memes
+     * @return the user's service status
+     */
+    public boolean isService() {
+        return values.getJSONObject("perks").getBoolean("service");
+    }
+
+    /**
+     * @return the user's founder status
+     */
+    public boolean isFounder() {
+        return values.getJSONObject("perks").getBoolean("founder");
+    }
+
+    /**
      * @return the user's profile link
      */
     public String getProfileUrl() {
@@ -116,6 +132,9 @@ public class User {
      * @return a list of this user's memes
      */
     public List<Meme> getMemes() {
+        // Services don't have memes
+        if(isService())
+            return new ArrayList<>();
         JSONArray response = new JSONArray(MemeratorAPI.api.get("/profile/" + getId() + "/memes"));
         List<Meme> memes = new ArrayList<>();
         for(int i = 0; i < response.length(); i++) {
