@@ -118,7 +118,15 @@ public class Profile extends User {
      * Returns as a UserIntegrations object, from there you can get each integration type.
      * @return the integrations.
      */
-    public UserIntegrations getIntegrations() {
-        return new UserIntegrations(new JSONObject(MemeratorAPI.api.get("/integrations")));
+    public List<UserIntegration> getIntegrations() {
+        List<UserIntegration> integrations = new ArrayList<>();
+        JSONObject integration = new JSONObject(MemeratorAPI.api.get("/integrations"));
+        for(String service : integration.keySet()) {
+            JSONArray datas = integration.getJSONArray(service);
+            for(Object data : datas) {
+                integrations.add(new UserIntegration(service, (String) data));
+            }
+        }
+        return integrations;
     }
 }
