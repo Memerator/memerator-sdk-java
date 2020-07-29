@@ -6,12 +6,18 @@
 
     <groupId>me.memerator.api</groupId>
     <artifactId>MemeratorAPI</artifactId>
-    <version>0.1.0-b${build}</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>Memerator API for Java</name>
+    <description>The official API Library for the Memerator.me API</description>
+    <url>https://github.com/Memerator/memerator-sdk-java</url>
+    <licenses>
+        <license>
+            <name>MIT</name>
+        </license>
+    </licenses>
 
-    <description>An implementation of the Memerator API in Java</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
