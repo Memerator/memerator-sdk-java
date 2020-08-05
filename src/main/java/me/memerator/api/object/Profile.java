@@ -39,6 +39,8 @@ public class Profile extends User {
     }
 
     /**
+     * This method actually differs from User#isPro() as they are 2 separate checks.
+     * They should always match, rarely is this value used outside of the Billing page.
      * @return if you have an active pro subscription
      */
     public boolean isProActive() {
@@ -46,15 +48,15 @@ public class Profile extends User {
     }
 
     /**
-     * Set your username
-     * Username requirements:
-     *   Be between 2 and 32 characters
-     *   Not taken
-     *   Can't be only numbers
-     *   No characters other than letters, numbers, periods, and underscores.
+     * Set your username<br>
+     * Username requirements:<br>
+     * 1) Be between 2 and 32 characters<br>
+     * 2) Not taken<br>
+     * 3) Can't be only numbers<br>
+     * 4) No characters other than letters, numbers, periods, and underscores.<br>
      * If you are verified, you will lose verification.
      * @param username the username to change to
-     * Throws IllegalArgumentException if the requirements weren't met
+     * @throws IllegalArgumentException if the requirements weren't met
      */
     public void setUsername(String username) {
         HashMap<String, Object> body = new HashMap<>();
