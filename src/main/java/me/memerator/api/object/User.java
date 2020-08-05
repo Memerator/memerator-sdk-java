@@ -113,15 +113,6 @@ public class User {
     }
 
     /**
-     * @return the user's join time
-     * @deprecated
-     * @see User#getJoinTimestamp()
-     */
-    public String getJoinedAt() {
-        return values.getString("joined");
-    }
-
-    /**
      * @return the user's join timestamp
      */
     public Instant getJoinTimestamp() {
