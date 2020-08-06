@@ -6,12 +6,9 @@
 
     <groupId>me.memerator.api</groupId>
     <artifactId>MemeratorAPI</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
 
-    <name>Memerator API for Java</name>
-    <description>The official API Library for the Memerator.me API</description>
-    <url>https://github.com/Memerator/memerator-sdk-java</url>
     <licenses>
         <license>
             <name>The MIT license</name>
@@ -19,6 +16,27 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <name>Memerator API for Java</name>
+    <description>An implementation of the Memerator API in Java</description>
+    <url>https://github.com/Memerator/memerator-sdk-java</url>
+    <organization>
+        <name>Memerator</name>
+        <url>https://memerator.me</url>
+    </organization>
+    <developers>
+        <developer>
+            <name>Chew</name>
+        </developer>
+    </developers>
+    <inceptionYear>2020</inceptionYear>
+
+    <scm>
+        <connection>scm:git:https://github.com/Memerator/memerator-sdk-java.git</connection>
+        <developerConnection>scm:git:git@github.com:Memerator/memerator-sdk-java.git</developerConnection>
+        <url>https://github.com/Memerator/memerator-sdk-java</url>
+        <tag>1.0.0</tag>
+    </scm>
 
     <properties>
         <java.version>1.8</java.version>
@@ -52,6 +70,14 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -71,6 +97,40 @@
                     <failOnWarnings>true</failOnWarnings>
                     <doclint>all</doclint>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
         <resources>
@@ -80,4 +140,11 @@
             </resource>
         </resources>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 </project>
