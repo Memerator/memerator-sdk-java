@@ -118,10 +118,10 @@ public class Meme {
     }
 
     /**
-     * Gets the ratings on this meme.
-     * Requirements for a response:
-     *   1) Be Pro
-     *   2) Be the owner of the meme
+     * Gets the ratings on this meme.<br>
+     * Requirements for a response:<br>
+     * 1) Be Pro<br>
+     * 2) Be the owner of the meme
      * @return a list of ratings
      */
     public List<Rating> getRatings() {
