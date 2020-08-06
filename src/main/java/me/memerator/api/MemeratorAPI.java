@@ -168,11 +168,7 @@ public final class MemeratorAPI {
      * @return the submitted Meme.
      */
     public Meme submitMeme(JSONObject meme) {
-        if(meme.has("url")) {
-            return getMeme(new JSONObject(getAPI().post("/submit", (HashMap<String, Object>) meme.toMap())).getString("memeid"));
-        } else {
-            return getMeme(new JSONObject(getAPI().post("/submit_image", (HashMap<String, Object>) meme.toMap())).getString("memeid"));
-        }
+        return getMeme(new JSONObject(getAPI().post("/submit", (HashMap<String, Object>) meme.toMap())).getString("memeid"));
     }
 
     /**
