@@ -4,6 +4,28 @@ The official Java API library for Memerator.
 
 ## Downloading/Installing
 
+### Stable Builds
+
+Stable builds are published to Central, so you only need the dependency.
+Replace [version] with the version below (without the "v")
+
+Latest Stable version: [![Maven Central](https://img.shields.io/maven-central/v/me.memerator.api/MemeratorAPI)]()
+
+```xml
+<!-- Memerator API -->
+<dependency>
+    <groupId>me.memerator.api</groupId>
+    <artifactId>MemeratorAPI</artifactId>
+    <version>[version]</version>
+</dependency>
+```
+
+### Development Builds
+
+To stay up to date with Memerator features (but with potentially more breaking changes), consider our dev builds.
+
+![Jenkins](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fjenkins.chew.pw%2Fjob%2Fmemerator-sdk-java%2F)
+
 Maven:
 
 First, you need Chew's Jenkins repository
