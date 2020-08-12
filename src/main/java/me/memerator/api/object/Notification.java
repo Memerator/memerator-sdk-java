@@ -45,9 +45,8 @@ public class Notification {
      * @return the raw message as it appears on Memerator.me
      */
     public String getRawMessageContent() {
-        return values.getString("'raw'");
+        return values.getString("raw");
     }
-
 
     /**
      * The type is mostly used internally but is useful for clients implementing notification sorting.
