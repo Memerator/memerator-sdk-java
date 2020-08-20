@@ -7,12 +7,12 @@ public enum ReportStatus {
     OPEN(0),
 
     /**
-     * Sets the max age to 2. Allows family friendly and teen.
+     * A report that has been assigned to a staff member, but not handled.
      */
     ASSIGNED(1),
 
     /**
-     * Sets the max age to 4. Allows all memes on Memerator.
+     * A report that has been resolved.
      */
     RESOLVED(2);
 
