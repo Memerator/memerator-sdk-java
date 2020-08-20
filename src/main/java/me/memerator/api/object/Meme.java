@@ -133,6 +133,14 @@ public class Meme {
     }
 
     /**
+     * Gets your rating on the meme
+     * @return your rating
+     */
+    public Rating getOwnRating() {
+        return new Rating(new JSONObject(MemeratorAPI.api.get("meme/" + getMemeId() + "/rating")), this);
+    }
+
+    /**
      * Disables this meme. Meme owner only.
      */
     public void disable() {

@@ -1,0 +1,16 @@
+import me.memerator.api.MemeratorAPI;
+import me.memerator.api.object.Rating;
+import org.junit.Test;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+public class RatingTest {
+    @Test
+    public void myRatingTest() {
+        MemeratorAPI api = new MemeratorAPI(System.getenv("API_KEY"));
+        Rating rating = api.getMeme("aaaaaaa").getOwnRating();
+        assertTrue(rating.getRating() > 0);
+        assertNotNull(rating);
+    }
+}
