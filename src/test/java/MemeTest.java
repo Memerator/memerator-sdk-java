@@ -1,9 +1,9 @@
 import me.memerator.api.MemeratorAPI;
 import me.memerator.api.entity.Age;
 import me.memerator.api.object.Meme;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MemeTest {
     public static MemeratorAPI api = new MemeratorAPI(System.getenv("API_KEY"));
