@@ -166,4 +166,19 @@ public class Meme {
         MemeratorAPI.api.put("meme/" + getMemeId() + "/caption", body);
         values.put("caption", newcaption);
     }
+
+    /**
+     * Rate this meme, requires "Ratings" key permission
+     * May cause inaccuracies for Meme#getAverageRating() and Meme#getTotalRating()
+     * @param rating the rating, between 1 and 5
+     * @throws IllegalArgumentException if you put an invalid rating
+     */
+    public void rate(int rating) {
+        if(!(rating >= 1 && rating <= 5)) {
+            throw new IllegalArgumentException("Enter a number between 1 and 5!");
+        }
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("rating", rating);
+        MemeratorAPI.api.post("meme/" + getMemeId() + "/rate", body);
+    }
 }

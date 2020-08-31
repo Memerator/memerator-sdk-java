@@ -35,4 +35,9 @@ public class MemeTest {
         assertEquals(1550237341, meme.getTimestamp().toEpochMilli() / 1000);
         assertEquals("over 1 year", meme.getTimeAgoFormatted());
     }
+
+    @Test
+    public void rateMeme() {
+        assertThrows(IllegalArgumentException.class, () -> api.getMeme("aaaaaaa").rate(6));
+    }
 }
