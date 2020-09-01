@@ -7,9 +7,11 @@ import java.time.Instant;
 
 public class Comment {
     JSONObject values;
+    MemeratorAPI api;
 
-    public Comment(JSONObject items) {
+    public Comment(JSONObject items, MemeratorAPI api) {
         values = items;
+        this.api = api;
     }
 
     /**
@@ -37,14 +39,14 @@ public class Comment {
      * @return the author of this comment.
      */
     public User getAuthor() {
-        return new User(values.getJSONObject("author"));
+        return new User(values.getJSONObject("author"), api);
     }
 
     /**
      * @return the meme this comment was left on.
      */
     public Meme getAssociatedMeme() {
-        return new Meme(values.getJSONObject("meme"));
+        return new Meme(values.getJSONObject("meme"), api);
     }
 
     /**
@@ -53,6 +55,6 @@ public class Comment {
      * 2) You made the comment
      */
     public void delete() {
-        MemeratorAPI.api.delete("/notification/" + getCommentId());
+        api.getAPI().delete("/notification/" + getCommentId());
     }
 }

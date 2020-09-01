@@ -1,5 +1,6 @@
 package me.memerator.api.object;
 
+import me.memerator.api.MemeratorAPI;
 import me.memerator.api.entity.ReportStatus;
 import org.json.JSONObject;
 
@@ -8,9 +9,11 @@ import org.json.JSONObject;
  */
 public class Report {
     JSONObject values;
+    MemeratorAPI api;
 
-    public Report(JSONObject items) {
+    public Report(JSONObject items, MemeratorAPI api) {
         values = items;
+        this.api = api;
     }
 
     /**
@@ -69,7 +72,7 @@ public class Report {
         if(values.get("assignee") == null) {
             return null;
         } else {
-            return new User(values.getJSONObject("assignee"));
+            return new User(values.getJSONObject("assignee"), api);
         }
     }
 

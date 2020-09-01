@@ -8,9 +8,11 @@ import java.time.Instant;
 
 public class Notification {
     JSONObject values;
+    MemeratorAPI api;
 
-    public Notification(JSONObject items) {
+    public Notification(JSONObject items, MemeratorAPI api) {
         values = items;
+        this.api = api;
     }
 
     /**
@@ -24,7 +26,7 @@ public class Notification {
      * @return the sender of this notification.
      */
     public User getAuthor() {
-        return new User(values.getJSONObject("sender"));
+        return new User(values.getJSONObject("sender"), api);
     }
 
     /**
@@ -91,6 +93,6 @@ public class Notification {
      * Deletes this notification
      */
     public void delete() {
-        MemeratorAPI.api.delete("/notification/" + getNotificationId());
+        api.getAPI().delete("/notification/" + getNotificationId());
     }
 }

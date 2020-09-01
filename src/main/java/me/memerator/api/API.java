@@ -8,13 +8,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class API {
-    private static OkHttpClient client;
-    private static String key;
+    private final OkHttpClient client;
+    private final String key;
     public static final String baseUrl = "https://api.memerator.me/v1/";
 
     public API(String apiKey) {
         client = new OkHttpClient();
-        key = apiKey;
+        this.key = apiKey;
     }
 
     public String get(String path) {

@@ -10,9 +10,11 @@ import java.util.List;
 
 public class User {
     JSONObject values;
+    MemeratorAPI api;
 
-    public User(JSONObject items) {
+    public User(JSONObject items, MemeratorAPI api) {
         values = items;
+        this.api = api;
     }
 
     /**
@@ -126,10 +128,10 @@ public class User {
         // Services don't have memes
         if(isService())
             return new ArrayList<>();
-        JSONArray response = new JSONArray(MemeratorAPI.api.get("/profile/" + getId() + "/memes"));
+        JSONArray response = new JSONArray(api.getAPI().get("/profile/" + getId() + "/memes"));
         List<Meme> memes = new ArrayList<>();
         for(int i = 0; i < response.length(); i++) {
-            memes.add(new Meme((JSONObject) response.get(i)));
+            memes.add(new Meme((JSONObject) response.get(i), api));
         }
         return memes;
     }

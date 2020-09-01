@@ -13,9 +13,11 @@ import java.util.List;
 
 public class Meme {
     JSONObject values;
+    MemeratorAPI api;
 
-    public Meme(JSONObject items) {
+    public Meme(JSONObject items, MemeratorAPI api) {
         values = items;
+        this.api = api;
     }
 
     // @group Meme Information Methods
@@ -78,7 +80,7 @@ public class Meme {
      * @return the author of this meme
      */
     public User getAuthor() {
-        return new User(values.getJSONObject("author"));
+        return new User(values.getJSONObject("author"), api);
     }
 
     /**
@@ -101,10 +103,10 @@ public class Meme {
      * @return the comments for this meme
      */
     public List<Comment> getComments() {
-        JSONArray commentsraw = new JSONArray(MemeratorAPI.api.get("/meme/" + getMemeId() + "/comments"));
+        JSONArray commentsraw = new JSONArray(api.getAPI().get("/meme/" + getMemeId() + "/comments"));
         ArrayList<Comment> comments = new ArrayList<>();
         for(int i = 0; i < commentsraw.length(); i++) {
-            comments.add(new Comment((JSONObject) commentsraw.get(i)));
+            comments.add(new Comment((JSONObject) commentsraw.get(i), api));
         }
         return comments;
     }
@@ -125,10 +127,10 @@ public class Meme {
      * @return a list of ratings
      */
     public List<Rating> getRatings() {
-        JSONArray ratings = new JSONArray(MemeratorAPI.api.get("meme/" + getMemeId() + "/ratings"));
+        JSONArray ratings = new JSONArray(api.getAPI().get("meme/" + getMemeId() + "/ratings"));
         List<Rating> response = new ArrayList<>();
         for(Object rating : ratings)
-            response.add(new Rating((JSONObject) rating, this));
+            response.add(new Rating((JSONObject) rating, this, api));
         return response;
     }
 
@@ -137,14 +139,14 @@ public class Meme {
      * @return your rating
      */
     public Rating getOwnRating() {
-        return new Rating(new JSONObject(MemeratorAPI.api.get("meme/" + getMemeId() + "/rating")), this);
+        return new Rating(new JSONObject(api.getAPI().get("meme/" + getMemeId() + "/rating")), this, api);
     }
 
     /**
      * Disables this meme. Meme owner only.
      */
     public void disable() {
-        MemeratorAPI.api.put("meme/" + getMemeId() + "/disable", new HashMap<>());
+        api.getAPI().put("meme/" + getMemeId() + "/disable", new HashMap<>());
         values.put("disabled", true);
     }
 
@@ -152,7 +154,7 @@ public class Meme {
      * Enable this meme. Meme owner only.
      */
     public void enable() {
-        MemeratorAPI.api.put("meme/" + getMemeId() + "/enable", new HashMap<>());
+        api.getAPI().put("meme/" + getMemeId() + "/enable", new HashMap<>());
         values.put("disabled", false);
     }
 
@@ -163,7 +165,7 @@ public class Meme {
     public void setCaption(String newcaption) {
         HashMap<String, Object> body = new HashMap<>();
         body.put("caption", newcaption);
-        MemeratorAPI.api.put("meme/" + getMemeId() + "/caption", body);
+        api.getAPI().put("meme/" + getMemeId() + "/caption", body);
         values.put("caption", newcaption);
     }
 
@@ -179,6 +181,6 @@ public class Meme {
         }
         HashMap<String, Object> body = new HashMap<>();
         body.put("rating", rating);
-        MemeratorAPI.api.post("meme/" + getMemeId() + "/rate", body);
+        api.getAPI().post("meme/" + getMemeId() + "/rate", body);
     }
 }

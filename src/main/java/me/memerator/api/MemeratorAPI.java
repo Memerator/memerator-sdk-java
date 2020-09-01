@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 public final class MemeratorAPI {
-    public static String token;
-    public static API api;
+    public String token;
+    public API api;
 
     public MemeratorAPI(String apiKey) {
         token = apiKey;
@@ -53,7 +53,7 @@ public final class MemeratorAPI {
      */
     public Meme getMeme(String id) {
         try {
-            return new Meme(new JSONObject(getAPI().get("meme/" + id)));
+            return new Meme(new JSONObject(getAPI().get("meme/" + id)), this);
         } catch (NotFound notFound) {
             throw new NotFound("This meme doesn't exist!");
         }
@@ -65,7 +65,7 @@ public final class MemeratorAPI {
      * @return a User
      */
     public User getUser(String username) {
-        return new User(new JSONObject(getAPI().get("profile/" + username)));
+        return new User(new JSONObject(getAPI().get("profile/" + username)), this);
     }
 
     /**
@@ -73,7 +73,7 @@ public final class MemeratorAPI {
      * @return your Profile
      */
     public Profile getProfile() {
-        return new Profile(new JSONObject(getAPI().get("profile/me")));
+        return new Profile(new JSONObject(getAPI().get("profile/me")), this);
     }
 
     /**
@@ -98,7 +98,7 @@ public final class MemeratorAPI {
      * @return a Meme.
      */
     public Meme getRandomMeme(Age max) {
-        return new Meme(new JSONObject(getAPI().get("meme/random?age=" + max.getAgeInt())));
+        return new Meme(new JSONObject(getAPI().get("meme/random?age=" + max.getAgeInt())), this);
     }
 
     /**
@@ -112,7 +112,7 @@ public final class MemeratorAPI {
         if(memeresponse.length() > 0) {
             ArrayList<Meme> memes = new ArrayList<>();
             for(int i = 0; i < memeresponse.length(); i++) {
-                memes.add(new Meme((JSONObject) memeresponse.get(i)));
+                memes.add(new Meme((JSONObject) memeresponse.get(i), this));
             }
             return memes;
         } else {
@@ -128,7 +128,7 @@ public final class MemeratorAPI {
         JSONArray memeresponse = new JSONArray(getAPI().get("meme/recents"));
         ArrayList<Meme> memes = new ArrayList<>();
         for(int i = 0; i < memeresponse.length(); i++) {
-            memes.add(new Meme((JSONObject) memeresponse.get(i)));
+            memes.add(new Meme((JSONObject) memeresponse.get(i), this));
         }
         return memes;
     }
@@ -142,7 +142,7 @@ public final class MemeratorAPI {
         JSONArray memeresponse = new JSONArray(getAPI().get("meme/recents?amount=" + amount));
         ArrayList<Meme> memes = new ArrayList<>();
         for(int i = 0; i < memeresponse.length(); i++) {
-            memes.add(new Meme((JSONObject) memeresponse.get(i)));
+            memes.add(new Meme((JSONObject) memeresponse.get(i), this));
         }
         return memes;
     }
@@ -157,7 +157,7 @@ public final class MemeratorAPI {
         JSONArray memeresponse = new JSONArray(getAPI().get("meme/recents?amount=" + amount + "&offset=" + offset));
         ArrayList<Meme> memes = new ArrayList<>();
         for(int i = 0; i < memeresponse.length(); i++) {
-            memes.add(new Meme((JSONObject) memeresponse.get(i)));
+            memes.add(new Meme((JSONObject) memeresponse.get(i), this));
         }
         return memes;
     }
@@ -184,17 +184,17 @@ public final class MemeratorAPI {
         JSONArray oneDay = response.getJSONArray("1d");
         List<TopMemer> oneDayList = new ArrayList<>();
         for(Object user : oneDay) {
-            oneDayList.add(new TopMemer((JSONObject) user));
+            oneDayList.add(new TopMemer((JSONObject) user, this));
         }
         JSONArray oneWeek = response.getJSONArray("7d");
         List<TopMemer> oneWeekList = new ArrayList<>();
         for(Object user : oneWeek) {
-            oneWeekList.add(new TopMemer((JSONObject) user));
+            oneWeekList.add(new TopMemer((JSONObject) user, this));
         }
         JSONArray oneMonth = response.getJSONArray("1mo");
         List<TopMemer> oneMonthList = new ArrayList<>();
         for(Object user : oneMonth) {
-            oneMonthList.add(new TopMemer((JSONObject) user));
+            oneMonthList.add(new TopMemer((JSONObject) user, this));
         }
         Map<String, List<TopMemer>> tops = new HashMap<>();
         tops.put("1d", oneDayList);

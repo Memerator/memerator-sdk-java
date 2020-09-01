@@ -16,10 +16,12 @@ import java.util.List;
  */
 public class Profile extends User {
     JSONObject values;
+    MemeratorAPI api;
 
-    public Profile(JSONObject items) {
-        super(items);
+    public Profile(JSONObject items, MemeratorAPI api) {
+        super(items, api);
         values = items;
+        this.api = api;
     }
 
     /**
@@ -62,7 +64,7 @@ public class Profile extends User {
         HashMap<String, Object> body = new HashMap<>();
         body.put("username", username);
 
-        MemeratorAPI.api.post("profile/me", body);
+        api.getAPI().post("profile/me", body);
     }
 
     /**
@@ -73,17 +75,17 @@ public class Profile extends User {
         HashMap<String, Object> body = new HashMap<>();
         body.put("bio", bio);
 
-        MemeratorAPI.api.post("profile/me", body);
+        api.getAPI().post("profile/me", body);
     }
 
     /**
      * @return your notifications
      */
     public List<Notification> getNotifications() {
-        JSONArray notificationsraw = new JSONArray(MemeratorAPI.api.get("/notifications"));
+        JSONArray notificationsraw = new JSONArray(api.getAPI().get("/notifications"));
         ArrayList<Notification> notifications = new ArrayList<>();
         for(int i = 0; i < notificationsraw.length(); i++) {
-            notifications.add(new Notification((JSONObject) notificationsraw.get(i)));
+            notifications.add(new Notification((JSONObject) notificationsraw.get(i), api));
         }
         return notifications;
     }
@@ -92,10 +94,10 @@ public class Profile extends User {
      * @return your reports
      */
     public List<Report> getReports() {
-        JSONArray reportResponse = new JSONArray(MemeratorAPI.api.get("/reports"));
+        JSONArray reportResponse = new JSONArray(api.getAPI().get("/reports"));
         ArrayList<Report> reports = new ArrayList<>();
         for(int i = 0; i < reportResponse.length(); i++) {
-            reports.add(new Report((JSONObject) reportResponse.get(i)));
+            reports.add(new Report((JSONObject) reportResponse.get(i), api));
         }
         return reports;
     }
@@ -106,14 +108,14 @@ public class Profile extends User {
      * @return the report
      */
     public Report getReport(int id) {
-        return new Report(new JSONObject(MemeratorAPI.api.get("/report/" + id)));
+        return new Report(new JSONObject(api.getAPI().get("/report/" + id)), api);
     }
 
     /**
      * @return your amount of notifications
      */
     public int getNotificationCount() {
-        return new JSONObject(MemeratorAPI.api.get("/notifications/count")).getInt("count");
+        return new JSONObject(api.getAPI().get("/notifications/count")).getInt("count");
     }
 
     /**
@@ -122,7 +124,7 @@ public class Profile extends User {
      */
     public List<UserIntegration> getIntegrations() {
         List<UserIntegration> integrations = new ArrayList<>();
-        JSONObject integration = new JSONObject(MemeratorAPI.api.get("/integrations"));
+        JSONObject integration = new JSONObject(api.getAPI().get("/integrations"));
         for(String service : integration.keySet()) {
             JSONArray datas = integration.getJSONArray(service);
             for(Object data : datas) {

@@ -1,5 +1,6 @@
 package me.memerator.api.object;
 
+import me.memerator.api.MemeratorAPI;
 import org.json.JSONObject;
 
 import java.time.OffsetDateTime;
@@ -8,10 +9,12 @@ import java.time.format.DateTimeFormatter;
 public class Rating {
     JSONObject values;
     Meme meme;
+    MemeratorAPI api;
 
-    public Rating(JSONObject items, Meme meme) {
+    public Rating(JSONObject items, Meme meme, MemeratorAPI api) {
         values = items;
         this.meme = meme;
+        this.api = api;
     }
 
     /**
@@ -19,7 +22,7 @@ public class Rating {
      * @return the user
      */
     public User getUser() {
-        return new User(values.getJSONObject("user"));
+        return new User(values.getJSONObject("user"), api);
     }
 
     /**

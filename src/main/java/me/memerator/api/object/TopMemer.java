@@ -1,5 +1,6 @@
 package me.memerator.api.object;
 
+import me.memerator.api.MemeratorAPI;
 import org.json.JSONObject;
 
 /**
@@ -7,9 +8,11 @@ import org.json.JSONObject;
  */
 public class TopMemer {
     JSONObject values;
+    MemeratorAPI api;
 
-    public TopMemer(JSONObject items) {
+    public TopMemer(JSONObject items, MemeratorAPI api) {
         values = items;
+        this.api = api;
     }
 
     /**
@@ -23,7 +26,7 @@ public class TopMemer {
      * @return the user in this spot
      */
     public User getUser() {
-        return new User(values.getJSONObject("user"));
+        return new User(values.getJSONObject("user"), api);
     }
 
     /**
