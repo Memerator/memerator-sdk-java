@@ -1,6 +1,7 @@
 package me.memerator.api.object;
 
 import me.memerator.api.MemeratorAPI;
+import me.memerator.api.entity.UserPerk;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -65,6 +66,8 @@ public class User {
 
     /**
      * @return the user's verification status
+     * @deprecated
+     * @see User#getUserPerks()
      */
     public boolean isVerified() {
         return values.getJSONObject("perks").getBoolean("verified");
@@ -72,6 +75,8 @@ public class User {
 
     /**
      * @return the user's staff member status
+     * @deprecated
+     * @see User#getUserPerks()
      */
     public boolean isStaff() {
         return values.getJSONObject("perks").getBoolean("staff");
@@ -79,6 +84,8 @@ public class User {
 
     /**
      * @return the user's translator status
+     * @deprecated
+     * @see User#getUserPerks()
      */
     public boolean isTranslator() {
         return values.getJSONObject("perks").getBoolean("translator");
@@ -86,6 +93,8 @@ public class User {
 
     /**
      * @return the user's pro status
+     * @deprecated
+     * @see User#getUserPerks()
      */
     public boolean isPro() {
         return values.getJSONObject("perks").getBoolean("pro");
@@ -95,6 +104,8 @@ public class User {
      * A service account is an account specifically for doing things for Memerator, and is not human owned.
      * They don't have any memes
      * @return the user's service status
+     * @deprecated
+     * @see User#getUserPerks()
      */
     public boolean isService() {
         return values.getJSONObject("perks").getBoolean("service");
@@ -102,9 +113,25 @@ public class User {
 
     /**
      * @return the user's founder status
+     * @deprecated
+     * @see User#getUserPerks()
      */
     public boolean isFounder() {
         return values.getJSONObject("perks").getBoolean("founder");
+    }
+
+    /**
+     * @return a list of this user's public perks
+     */
+    public List<UserPerk> getUserPerks() {
+        List<UserPerk> perks = new ArrayList<>();
+        for (String object : values.getJSONObject("perks").keySet()) {
+            boolean has = values.getJSONObject("perks").getBoolean(object);
+            if (has) {
+                perks.add(UserPerk.valueOf(object.toUpperCase()));
+            }
+        }
+        return perks;
     }
 
     /**
