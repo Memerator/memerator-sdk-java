@@ -43,9 +43,9 @@ public enum ReportStatus {
             case (0):
                 return "Open";
             case (1):
-                return "Resolved";
+                return "Assigned";
             case (2):
-                return "Closed";
+                return "Resolved";
             default:
                 return "Unknown";
         }

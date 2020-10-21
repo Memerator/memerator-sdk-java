@@ -20,8 +20,6 @@ public class Meme {
         this.api = api;
     }
 
-    // @group Meme Information Methods
-
     /**
      * @return the meme's ID.
      */
@@ -34,11 +32,9 @@ public class Meme {
      */
     @Nullable
     public String getCaption() {
-        try {
-            return values.getString("caption");
-        } catch (org.json.JSONException e) {
+        if(values.isNull("caption"))
             return null;
-        }
+        return values.getString("caption");
     }
 
     /**
