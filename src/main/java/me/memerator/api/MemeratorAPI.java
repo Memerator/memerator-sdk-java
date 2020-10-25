@@ -1,8 +1,12 @@
 package me.memerator.api;
 
 import me.memerator.api.entity.Age;
-import me.memerator.api.errors.*;
-import me.memerator.api.object.*;
+import me.memerator.api.errors.NotFound;
+import me.memerator.api.object.Meme;
+import me.memerator.api.object.Profile;
+import me.memerator.api.object.Stats;
+import me.memerator.api.object.TopMemer;
+import me.memerator.api.object.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -105,10 +109,14 @@ public final class MemeratorAPI {
      * Searches the website for a meme. As seen on https://memerator.me/search
      * @param query the search query
      * @return an Array of Memes. Can be empty, never null.
-     * @throws UnsupportedEncodingException this will never be thrown.
      */
-    public List<Meme> searchMemes(String query) throws UnsupportedEncodingException {
-        JSONArray memeresponse = new JSONArray(getAPI().get("meme/search?search=" + URLEncoder.encode(query, "UTF-8")));
+    public List<Meme> searchMemes(String query) {
+        JSONArray memeresponse;
+        try {
+            memeresponse = new JSONArray(getAPI().get("meme/search?search=" + URLEncoder.encode(query, "UTF-8")));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("No UTF-8? What.");
+        }
         if(memeresponse.length() > 0) {
             ArrayList<Meme> memes = new ArrayList<>();
             for(int i = 0; i < memeresponse.length(); i++) {
