@@ -2,10 +2,14 @@ package me.memerator.api.object;
 
 import me.memerator.api.MemeratorAPI;
 import me.memerator.api.entity.UserPerk;
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.awt.Color;
 import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -170,5 +174,94 @@ public class User {
             memes.add(new Meme((JSONObject) response.get(i), api));
         }
         return memes;
+    }
+
+
+    /**
+     * @return the time when your Pro subscription started, if you have one
+     * @see User#getProSince
+     */
+    @Nullable
+    @Deprecated
+    public String getProStartDate() {
+        if (hasPerk(UserPerk.PRO)) {
+            return values.getJSONObject("pro").getString("since");
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * The timestamp of the Pro start as an OffsetDateTime
+     * @return the timestamp
+     */
+    @Nullable
+    public OffsetDateTime getProSince() {
+        DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSSX");
+        if (hasPerk(UserPerk.PRO)) {
+            return OffsetDateTime.parse(values.getString("timestamp"), inputFormat);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * This method actually differs from User#isPro() as they are 2 separate checks.
+     * They should always match, rarely is this value used outside of the Billing page.
+     * @return if you have an active pro subscription
+     */
+    public boolean isProActive() {
+        if (hasPerk(UserPerk.PRO)) {
+            return values.getJSONObject("pro").getBoolean("active");
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Get the Pro name color for this user. If they're not pro, or don't have one set, this will be null.
+     * @return the Pro name color
+     */
+    @Nullable
+    public Color getNameColor() {
+        if (hasPerk(UserPerk.PRO)) {
+            String color = values.getJSONObject("pro").getString("name_color");
+            if (color == null) {
+                return null;
+            }
+            return Color.decode("#" + color);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Get the Pro background color for this user. If they're not Pro, or don't have one set, this will be null.
+     * @return the Pro background color
+     */
+    @Nullable
+    public Color getBackgroundColor() {
+        if (hasPerk(UserPerk.PRO)) {
+            String color = values.getJSONObject("pro").getString("background_color");
+            if (color == null) {
+                return null;
+            }
+            return Color.decode("#" + color);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * The Pro background URL for this user. If they're not Pro, or don't have one set, this will be null.
+     * @return the Pro Background URL.
+     */
+    @Nullable
+    public String getBackgroundUrl() {
+        if (hasPerk(UserPerk.PRO)) {
+            return values.getJSONObject("pro").getString("background_url");
+        } else {
+            return null;
+        }
     }
 }

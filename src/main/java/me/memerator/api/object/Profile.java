@@ -1,7 +1,6 @@
 package me.memerator.api.object;
 
 import me.memerator.api.MemeratorAPI;
-import me.memerator.api.errors.*;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,23 +29,6 @@ public class Profile extends User {
     @Nullable
     public String getProExpirationDate() {
         return values.getJSONObject("pro").getString("expires");
-    }
-
-    /**
-     * @return the time when your Pro subscription started, if you have one
-     */
-    @Nullable
-    public String getProStartDate() {
-        return values.getJSONObject("pro").getString("since");
-    }
-
-    /**
-     * This method actually differs from User#isPro() as they are 2 separate checks.
-     * They should always match, rarely is this value used outside of the Billing page.
-     * @return if you have an active pro subscription
-     */
-    public boolean isProActive() {
-        return values.getJSONObject("pro").getBoolean("active");
     }
 
     /**
