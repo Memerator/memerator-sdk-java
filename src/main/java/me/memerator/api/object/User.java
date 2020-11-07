@@ -135,6 +135,15 @@ public class User {
     }
 
     /**
+     * Shorthand for getUserPerks().contains(perk);
+     * @param perk the perk to check
+     * @return true/false if they have the specified perk
+     */
+    public boolean hasPerk(UserPerk perk) {
+        return getUserPerks().contains(perk);
+    }
+
+    /**
      * @return the user's profile link
      */
     public String getProfileUrl() {
