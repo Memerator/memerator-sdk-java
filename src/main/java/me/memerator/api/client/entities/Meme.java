@@ -88,17 +88,20 @@ public interface Meme {
 
     /**
      * Disables this meme. Meme owner only.
+     * @return a requester to disable
      */
     Requester<Void> disable();
 
     /**
      * Enable this meme. Meme owner only.
+     * @return a requester to enable
      */
     Requester<Void> enable();
 
     /**
      * Set the caption
      * @param newcaption the caption to set
+     * @return a requester for the caption
      */
     Requester<Void> setCaption(String newcaption);
 
@@ -107,6 +110,7 @@ public interface Meme {
      * May cause inaccuracies for Meme#getAverageRating() and Meme#getTotalRating()
      * @param rating the rating, between 1 and 5
      * @throws IllegalArgumentException if you put an invalid rating
+     * @return a requester for the rating
      */
     Requester<Void> rate(int rating);
 }

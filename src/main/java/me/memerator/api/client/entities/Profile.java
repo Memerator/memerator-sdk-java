@@ -26,12 +26,14 @@ public interface Profile extends User {
      * If you are verified, you will lose verification.
      * @param username the username to change to
      * @throws IllegalArgumentException if the requirements weren't met
+     * @return requester to set the username
      */
     Requester<Void> setUsername(String username);
 
     /**
      * Set your bio
      * @param bio the new bio to set
+     * @return requester to set the bio
      */
     Requester<Void> setBio(String bio);
 

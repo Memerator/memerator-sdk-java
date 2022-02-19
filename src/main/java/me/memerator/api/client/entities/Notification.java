@@ -58,6 +58,7 @@ public interface Notification {
 
     /**
      * Deletes this notification
+     * @return requester to delete this notification
      */
     Requester<Void> delete();
 }
