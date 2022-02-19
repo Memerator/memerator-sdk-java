@@ -1,6 +1,6 @@
-import me.memerator.api.MemeratorAPI;
-import me.memerator.api.entity.Age;
-import me.memerator.api.object.Meme;
+import me.memerator.api.client.MemeratorAPI;
+import me.memerator.api.client.entities.Age;
+import me.memerator.api.client.entities.Meme;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

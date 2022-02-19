@@ -1,6 +1,6 @@
-import me.memerator.api.MemeratorAPI;
-import me.memerator.api.entity.UserPerk;
-import me.memerator.api.object.Profile;
+import me.memerator.api.client.MemeratorAPI;
+import me.memerator.api.client.entities.UserPerk;
+import me.memerator.api.client.entities.Profile;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;

@@ -1,5 +1,10 @@
-package me.memerator.api;
+package me.memerator.api.client;
 
+import me.memerator.api.client.errors.InternalServerError;
+import me.memerator.api.client.errors.InvalidToken;
+import me.memerator.api.client.errors.NotFound;
+import me.memerator.api.client.errors.RateLimited;
+import me.memerator.api.client.errors.Unauthorized;
 import me.memerator.api.errors.*;
 import okhttp3.*;
 

@@ -1,4 +1,4 @@
-package me.memerator.api.object;
+package me.memerator.api.client.entities;
 
 import org.json.JSONObject;
 

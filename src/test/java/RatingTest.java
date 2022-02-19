@@ -1,5 +1,5 @@
-import me.memerator.api.MemeratorAPI;
-import me.memerator.api.object.Rating;
+import me.memerator.api.client.MemeratorAPI;
+import me.memerator.api.client.entities.Rating;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;

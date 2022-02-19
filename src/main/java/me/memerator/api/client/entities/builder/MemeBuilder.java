@@ -1,6 +1,6 @@
-package me.memerator.api.builder;
+package me.memerator.api.client.entities.builder;
 
-import me.memerator.api.entity.Age;
+import me.memerator.api.client.entities.Age;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 

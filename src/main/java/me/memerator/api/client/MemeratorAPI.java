@@ -1,12 +1,12 @@
-package me.memerator.api;
+package me.memerator.api.client;
 
-import me.memerator.api.entity.Age;
-import me.memerator.api.errors.NotFound;
-import me.memerator.api.object.Meme;
-import me.memerator.api.object.Profile;
-import me.memerator.api.object.Stats;
-import me.memerator.api.object.TopMemer;
-import me.memerator.api.object.User;
+import me.memerator.api.client.entities.TopMemer;
+import me.memerator.api.client.errors.NotFound;
+import me.memerator.api.client.entities.Age;
+import me.memerator.api.client.entities.Meme;
+import me.memerator.api.client.entities.Profile;
+import me.memerator.api.client.entities.Stats;
+import me.memerator.api.client.entities.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

@@ -1,4 +1,4 @@
-package me.memerator.api.errors;
+package me.memerator.api.client.errors;
 
 public class Unauthorized extends RuntimeException {
     public Unauthorized(String message) {

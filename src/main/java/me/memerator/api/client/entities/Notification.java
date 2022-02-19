@@ -1,7 +1,7 @@
-package me.memerator.api.object;
+package me.memerator.api.client.entities;
 
+import me.memerator.api.client.MemeratorAPI;
 import org.jetbrains.annotations.Nullable;
-import me.memerator.api.MemeratorAPI;
 import org.json.JSONObject;
 
 import java.time.Instant;

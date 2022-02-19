@@ -1,6 +1,6 @@
-package me.memerator.api.object;
+package me.memerator.api.client.entities;
 
-import me.memerator.api.MemeratorAPI;
+import me.memerator.api.client.MemeratorAPI;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;

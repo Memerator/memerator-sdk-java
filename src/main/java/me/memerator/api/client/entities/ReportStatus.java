@@ -1,4 +1,4 @@
-package me.memerator.api.entity;
+package me.memerator.api.client.entities;
 
 public enum ReportStatus {
     /**
