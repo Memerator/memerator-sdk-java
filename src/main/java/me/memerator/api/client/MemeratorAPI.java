@@ -6,6 +6,8 @@ import me.memerator.api.client.entities.Profile;
 import me.memerator.api.client.entities.Stats;
 import me.memerator.api.client.entities.TopMemer;
 import me.memerator.api.client.entities.User;
+import me.memerator.api.internal.requests.Requester;
+import okhttp3.OkHttpClient;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -24,69 +26,63 @@ public interface MemeratorAPI {
     void setToken(String newToken);
 
     /**
-     * The API method used in the lib. Has base URL already set.
-     * @return the API
-     */
-    API getAPI();
-
-    /**
      * Gets a meme from the website by its Meme ID.
      * @param id the meme id
      * @return a Meme
      */
-    Meme getMeme(String id);
+    Requester<Meme> retrieveMeme(String id);
 
     /**
      * Gets a user by username or user ID.
      * @param username the username or ID.
      * @return a User
      */
-    User getUser(String username);
+    Requester<User> retrieveUser(String username);
 
     /**
      * Gets the currently logged in ProfileImpl. Inherits User
      * @return your ProfileImpl
      */
-    Profile getProfile();
+    Requester<Profile> retrieveProfile();
 
     /**
      * The site's stats as seen on https://memerator.me/stats
      * @return a Stats object with the stats.
      */
-    Stats getStats();
+    Requester<Stats> retrieveStats();
 
     /**
      * Gets a random meme from the website. Up to Teen by default.
      * @return a random meme
      */
-    Meme getRandomMeme();
+    Requester<Meme> retrieveRandomMeme();
 
     /**
      * Gets a random meme from the website up a specified Max Age.
      * @param max the maximum allowed age group.
      * @return a Meme.
      */
-    Meme getRandomMeme(Age max);
+    Requester<Meme> retrieveRandomMeme(Age max);
 
     /**
      * Searches the website for a meme. As seen on https://memerator.me/search
      * @param query the search query
      * @return an Array of Memes. Can be empty, never null.
      */
-    List<Meme> searchMemes(String query);
+    Requester<List<Meme>> searchMemes(String query);
 
     /**
      * Get the 25 most recent memes
      * @return a list of Memes
      */
-    List<Meme> getRecentMemes();
+    Requester<List<Meme>> retrieveRecentMemes();
 
     /**
      * Get the specified amount of recent memes, up to 25.
      * @param amount the amount of memes to get
      * @return the memes
      */
-    List<Meme> getRecentMemes(int amount);
+    Requester<List<Meme>> retrieveRecentMemes(int amount);
 
     /**
      * Get the specified amount (up to 25) of recent memes at a specific offset.
@@ -94,14 +90,14 @@ public interface MemeratorAPI {
      * @param offset the offset, anywhere from 0 to the total amount of memes.
      * @return the memes
      */
-    List<Meme> getRecentMemes(int amount, int offset);
+    Requester<List<Meme>> retrieveRecentMemes(int amount, int offset);
 
     /**
      * Submit a meme. See MemeBuilder class.
      * @param meme a prepared Meme
-     * @return the submitted Meme.
+     * @return the submitted Meme's ID.
      */
-    Meme submitMeme(JSONObject meme);
+    Requester<String> submitMeme(JSONObject meme);
 
     /**
      * Returns a list of hashmap with 3 items
@@ -111,5 +107,12 @@ public interface MemeratorAPI {
      * 1mo = Top for the past month
      * @return the top memers
      */
-    Map<String, List<TopMemer>> getTopMemers();
+    Requester<Map<String, List<TopMemer>>> retrieveTopMemers();
+
+    /**
+     * Returns the OkHttpClient used by the API.
+     *
+     * @return the OkHttpClient
+     */
+    OkHttpClient getClient();
 }

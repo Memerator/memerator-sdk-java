@@ -1,5 +1,6 @@
 package me.memerator.api.client.entities;
 
+import me.memerator.api.internal.requests.Requester;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -26,39 +27,39 @@ public interface Profile extends User {
      * @param username the username to change to
      * @throws IllegalArgumentException if the requirements weren't met
      */
-    void setUsername(String username);
+    Requester<Void> setUsername(String username);
 
     /**
      * Set your bio
      * @param bio the new bio to set
      */
-    void setBio(String bio);
+    Requester<Void> setBio(String bio);
 
     /**
      * @return your notifications
      */
-    List<Notification> getNotifications();
+    Requester<List<Notification>> retrieveNotifications();
 
     /**
      * @return your reports
      */
-    List<Report> getReports();
+    Requester<List<Report>> retrieveReports();
 
     /**
      * Gets a specific report by ID
      * @param id the report id
      * @return the report
      */
-    Report getReport(int id);
+    Requester<Report> retrieveReport(int id);
 
     /**
      * @return your amount of notifications
      */
-    int getNotificationCount();
+    Requester<Integer> retrieveNotificationCount();
 
     /**
      * Returns as a UserIntegrations object, from there you can get each integration type.
      * @return the integrations.
      */
-    List<UserIntegration> getIntegrations();
+    Requester<List<UserIntegration>> retrieveIntegrations();
 }

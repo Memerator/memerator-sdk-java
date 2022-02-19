@@ -1,6 +1,5 @@
 package me.memerator.api.internal.impl;
 
-import me.memerator.api.client.API;
 import me.memerator.api.client.MemeratorAPI;
 import me.memerator.api.client.entities.Age;
 import me.memerator.api.client.entities.Meme;
@@ -14,6 +13,10 @@ import me.memerator.api.internal.impl.entities.ProfileImpl;
 import me.memerator.api.internal.impl.entities.StatsImpl;
 import me.memerator.api.internal.impl.entities.TopMemerImpl;
 import me.memerator.api.internal.impl.entities.UserImpl;
+import me.memerator.api.internal.requests.RequestBuilder;
+import me.memerator.api.internal.requests.Requester;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -23,14 +26,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 public class MemeratorAPIImpl implements MemeratorAPI {
     public String token;
-    public API api;
+    private final OkHttpClient client;
 
     public MemeratorAPIImpl(String apiKey) {
         this.token = apiKey;
-        this.api = new API(apiKey);
+        this.client = new OkHttpClient();
     }
 
     @Override
@@ -41,124 +45,156 @@ public class MemeratorAPIImpl implements MemeratorAPI {
     @Override
     public void setToken(String newToken) {
         token = newToken;
-        api = new API(newToken);
     }
 
     @Override
-    public API getAPI() {
-        return api;
-    }
-
-    @Override
-    public Meme getMeme(String id) {
+    public Requester<Meme> retrieveMeme(String id) {
         try {
-            return new MemeImpl(new JSONObject(getAPI().get("meme/" + id)), this);
+            Request builder = RequestBuilder.get("meme/" + id, token).build();
+
+            Function<String, Meme> meme = (String response) -> new MemeImpl(new JSONObject(response), this);
+
+            return new Requester<>(client, builder, meme);
         } catch (NotFound notFound) {
             throw new NotFound("This meme doesn't exist!");
         }
     }
 
     @Override
-    public User getUser(String username) {
-        return new UserImpl(new JSONObject(getAPI().get("profile/" + username)), this);
+    public Requester<User> retrieveUser(String username) {
+        Request request = RequestBuilder.get("profile/" + username, token).build();
+        Function<String, User> user = (String response) -> new UserImpl(new JSONObject(response), this);
+
+        return new Requester<>(client, request, user);
     }
 
     @Override
-    public Profile getProfile() {
-        return new ProfileImpl(new JSONObject(getAPI().get("profile/me")), this);
+    public Requester<Profile> retrieveProfile() {
+        Request request = RequestBuilder.get("profile/me", token).build();
+        Function<String, Profile> profile = (String response) -> new ProfileImpl(new JSONObject(response), this);
+
+        return new Requester<>(client, request, profile);
     }
 
     @Override
-    public Stats getStats() {
-        return new StatsImpl(new JSONObject(getAPI().get("stats")));
+    public Requester<Stats> retrieveStats() {
+        Request request = RequestBuilder.get("stats", token).build();
+        Function<String, Stats> stats = (String response) -> new StatsImpl(new JSONObject(response));
+
+        return new Requester<>(client, request, stats);
     }
 
     @Override
-    public Meme getRandomMeme() {
-        return getRandomMeme(Age.TEEN);
+    public Requester<Meme> retrieveRandomMeme() {
+        return retrieveRandomMeme(Age.TEEN);
     }
 
     @Override
-    public Meme getRandomMeme(Age max) {
-        return new MemeImpl(new JSONObject(getAPI().get("meme/random?age=" + max.getAgeInt())), this);
+    public Requester<Meme> retrieveRandomMeme(Age max) {
+        Request request = RequestBuilder.get("meme/random?age=" + max.getAgeInt(), token).build();
+        Function<String, Meme> meme = (String response) -> new MemeImpl(new JSONObject(response), this);
+
+        return new Requester<>(client, request, meme);
     }
 
+    private final Function<String, List<Meme>> responseToMemeList = (String response) -> {
+        List<Meme> memes = new ArrayList<>();
+        JSONArray array = new JSONArray(response);
+        for (int i = 0; i < array.length(); i++) {
+            memes.add(new MemeImpl(array.getJSONObject(i), this));
+        }
+        return memes;
+    };
+
     @Override
-    public List<Meme> searchMemes(String query) {
-        JSONArray memeresponse;
+    public Requester<List<Meme>> searchMemes(String query) {
+        Request request;
+
         try {
-            memeresponse = new JSONArray(getAPI().get("meme/search?search=" + URLEncoder.encode(query, "UTF-8")));
+            request = RequestBuilder.get("meme/search?search=" + URLEncoder.encode(query, "UTF-8"), token).build();
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("No UTF-8? What.");
         }
-        if(memeresponse.length() > 0) {
-            ArrayList<Meme> memes = new ArrayList<>();
-            for(int i = 0; i < memeresponse.length(); i++) {
-                memes.add(new MemeImpl((JSONObject) memeresponse.get(i), this));
+
+        Function<String, List<Meme>> memeList = (String response) -> {
+            JSONArray memeresponse = new JSONArray(response);
+
+            if(memeresponse.length() > 0) {
+                ArrayList<Meme> memes = new ArrayList<>();
+                for(int i = 0; i < memeresponse.length(); i++) {
+                    memes.add(new MemeImpl((JSONObject) memeresponse.get(i), this));
+                }
+                return memes;
+            } else {
+                return new ArrayList<>();
             }
-            return memes;
-        } else {
-            return new ArrayList<>();
-        }
+        };
+
+        return new Requester<>(client, request, memeList);
     }
 
     @Override
-    public List<Meme> getRecentMemes() {
-        JSONArray memeresponse = new JSONArray(getAPI().get("meme/recents"));
-        ArrayList<Meme> memes = new ArrayList<>();
-        for(int i = 0; i < memeresponse.length(); i++) {
-            memes.add(new MemeImpl((JSONObject) memeresponse.get(i), this));
-        }
-        return memes;
+    public Requester<List<Meme>> retrieveRecentMemes() {
+        Request request = RequestBuilder.get("meme/recents", token).build();
+
+        return new Requester<>(client, request, responseToMemeList);
     }
 
     @Override
-    public List<Meme> getRecentMemes(int amount) {
-        JSONArray memeresponse = new JSONArray(getAPI().get("meme/recents?amount=" + amount));
-        ArrayList<Meme> memes = new ArrayList<>();
-        for(int i = 0; i < memeresponse.length(); i++) {
-            memes.add(new MemeImpl((JSONObject) memeresponse.get(i), this));
-        }
-        return memes;
+    public Requester<List<Meme>> retrieveRecentMemes(int amount) {
+        Request request = RequestBuilder.get("meme/recents?amount=" + amount, token).build();
+
+        return new Requester<>(client, request, responseToMemeList);
     }
 
     @Override
-    public List<Meme> getRecentMemes(int amount, int offset) {
-        JSONArray memeresponse = new JSONArray(getAPI().get("meme/recents?amount=" + amount + "&offset=" + offset));
-        ArrayList<Meme> memes = new ArrayList<>();
-        for(int i = 0; i < memeresponse.length(); i++) {
-            memes.add(new MemeImpl((JSONObject) memeresponse.get(i), this));
-        }
-        return memes;
+    public Requester<List<Meme>> retrieveRecentMemes(int amount, int offset) {
+        Request request = RequestBuilder.get("meme/recents?amount=" + amount + "&offset=" + offset, token).build();
+
+        return new Requester<>(client, request, responseToMemeList);
     }
 
     @Override
-    public Meme submitMeme(JSONObject meme) {
-        return getMeme(new JSONObject(getAPI().post("/submit", (HashMap<String, Object>) meme.toMap())).getString("memeid"));
+    public Requester<String> submitMeme(JSONObject meme) {
+        Request request = RequestBuilder.post("/submit", meme.toMap(), token).build();
+
+        return new Requester<>(client, request, (String response) -> new JSONObject(response).getString("memeid"));
     }
 
     @Override
-    public Map<String, List<TopMemer>> getTopMemers() {
-        JSONObject response = new JSONObject(getAPI().get("topmemers"));
-        JSONArray oneDay = response.getJSONArray("1d");
-        List<TopMemer> oneDayList = new ArrayList<>();
-        for(Object user : oneDay) {
-            oneDayList.add(new TopMemerImpl((JSONObject) user, this));
-        }
-        JSONArray oneWeek = response.getJSONArray("7d");
-        List<TopMemer> oneWeekList = new ArrayList<>();
-        for(Object user : oneWeek) {
-            oneWeekList.add(new TopMemerImpl((JSONObject) user, this));
-        }
-        JSONArray oneMonth = response.getJSONArray("1mo");
-        List<TopMemer> oneMonthList = new ArrayList<>();
-        for(Object user : oneMonth) {
-            oneMonthList.add(new TopMemerImpl((JSONObject) user, this));
-        }
-        Map<String, List<TopMemer>> tops = new HashMap<>();
-        tops.put("1d", oneDayList);
-        tops.put("7d", oneWeekList);
-        tops.put("1mo", oneMonthList);
-        return tops;
+    public Requester<Map<String, List<TopMemer>>> retrieveTopMemers() {
+        Request request = RequestBuilder.get("topmemers", token).build();
+
+        Function<String, Map<String, List<TopMemer>>> topMemers = (String responseString) -> {
+            JSONObject response = new JSONObject(responseString);
+
+            JSONArray oneDay = response.getJSONArray("1d");
+            List<TopMemer> oneDayList = new ArrayList<>();
+            for(Object user : oneDay) {
+                oneDayList.add(new TopMemerImpl((JSONObject) user, this));
+            }
+            JSONArray oneWeek = response.getJSONArray("7d");
+            List<TopMemer> oneWeekList = new ArrayList<>();
+            for(Object user : oneWeek) {
+                oneWeekList.add(new TopMemerImpl((JSONObject) user, this));
+            }
+            JSONArray oneMonth = response.getJSONArray("1mo");
+            List<TopMemer> oneMonthList = new ArrayList<>();
+            for(Object user : oneMonth) {
+                oneMonthList.add(new TopMemerImpl((JSONObject) user, this));
+            }
+            Map<String, List<TopMemer>> tops = new HashMap<>();
+            tops.put("1d", oneDayList);
+            tops.put("7d", oneWeekList);
+            tops.put("1mo", oneMonthList);
+            return tops;
+        };
+
+        return new Requester<>(client, request, topMemers);
+    }
+
+    @Override
+    public OkHttpClient getClient() {
+        return client;
     }
 }

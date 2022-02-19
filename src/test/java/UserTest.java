@@ -1,6 +1,7 @@
 import me.memerator.api.client.MemeratorAPI;
 import me.memerator.api.client.entities.UserPerk;
 import me.memerator.api.client.entities.Profile;
+import me.memerator.api.internal.impl.MemeratorAPIImpl;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
@@ -11,11 +12,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UserTest {
-    public static MemeratorAPI api = new MemeratorAPI(System.getenv("API_KEY"));
+    public static MemeratorAPI api = new MemeratorAPIImpl(System.getenv("API_KEY"));
 
     @Test
     public void perkTest() {
-        Profile me = api.getProfile();
+        Profile me = api.retrieveProfile().complete();
         List<UserPerk> perk = me.getUserPerks();
         assertTrue(perk.contains(UserPerk.VERIFIED));
         assertTrue(perk.contains(UserPerk.PRO));
@@ -27,7 +28,7 @@ public class UserTest {
 
     @Test
     public void proTest() {
-        Profile me = api.getProfile();
+        Profile me = api.retrieveProfile().complete();
         assertTrue(me.isProActive());
         assertEquals(Color.decode("#ea8de9"), me.getNameColor());
         assertEquals(Color.decode("#85aafc"), me.getBackgroundColor());

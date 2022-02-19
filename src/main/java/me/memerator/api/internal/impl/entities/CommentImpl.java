@@ -41,9 +41,4 @@ public class CommentImpl implements Comment {
     public Meme getAssociatedMeme() {
         return new MemeImpl(values.getJSONObject("meme"), api);
     }
-
-    @Override
-    public void delete() {
-        api.getAPI().delete("/notification/" + getCommentId());
-    }
 }

@@ -1,5 +1,7 @@
 package me.memerator.api.client.entities;
 
+import me.memerator.api.internal.requests.Requester;
+import okhttp3.Request;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.Color;
@@ -107,7 +109,7 @@ public interface User {
     /**
      * @return a list of this user's memes
      */
-    List<Meme> getMemes();
+    Requester<List<Meme>> retrieveMemes();
 
     /**
      * @return the time when your Pro subscription started, if you have one

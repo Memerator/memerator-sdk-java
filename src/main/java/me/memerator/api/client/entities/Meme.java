@@ -1,5 +1,6 @@
 package me.memerator.api.client.entities;
 
+import me.memerator.api.internal.requests.Requester;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
@@ -62,7 +63,7 @@ public interface Meme {
     /**
      * @return the comments for this meme
      */
-    List<Comment> getComments();
+    Requester<List<Comment>> retrieveComments();
 
     /**
      * Returns the Age as an Age enum
@@ -77,29 +78,29 @@ public interface Meme {
      * 2) Be the owner of the meme
      * @return a list of ratings
      */
-    List<Rating> getRatings();
+    Requester<List<Rating>> retrieveRatings();
 
     /**
      * Gets your rating on the meme
      * @return your rating
      */
-    Rating getOwnRating();
+    Requester<Rating> retrieveOwnRating();
 
     /**
      * Disables this meme. Meme owner only.
      */
-    void disable();
+    Requester<Void> disable();
 
     /**
      * Enable this meme. Meme owner only.
      */
-    void enable();
+    Requester<Void> enable();
 
     /**
      * Set the caption
      * @param newcaption the caption to set
      */
-    void setCaption(String newcaption);
+    Requester<Void> setCaption(String newcaption);
 
     /**
      * Rate this meme, requires "Ratings" key permission
@@ -107,5 +108,5 @@ public interface Meme {
      * @param rating the rating, between 1 and 5
      * @throws IllegalArgumentException if you put an invalid rating
      */
-    void rate(int rating);
+    Requester<Void> rate(int rating);
 }

@@ -4,6 +4,9 @@ import me.memerator.api.client.MemeratorAPI;
 import me.memerator.api.client.entities.Meme;
 import me.memerator.api.client.entities.User;
 import me.memerator.api.client.entities.UserPerk;
+import me.memerator.api.internal.requests.RequestBuilder;
+import me.memerator.api.internal.requests.Requester;
+import okhttp3.Request;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,6 +17,7 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class UserImpl implements User {
     JSONObject values;
@@ -116,16 +120,21 @@ public class UserImpl implements User {
     }
 
     @Override
-    public List<Meme> getMemes() {
-        // Services don't have memes
-        if(isService())
-            return new ArrayList<>();
-        JSONArray response = new JSONArray(api.getAPI().get("/profile/" + getId() + "/memes"));
-        List<Meme> memes = new ArrayList<>();
-        for(int i = 0; i < response.length(); i++) {
-            memes.add(new MemeImpl((JSONObject) response.get(i), api));
-        }
-        return memes;
+    public Requester<List<Meme>> retrieveMemes() {
+        if (hasPerk(UserPerk.SERVICE)) throw new IllegalArgumentException("User is a service, cannot retrieve memes");
+
+        Request request = RequestBuilder.get("/profile/" + getId() + "/memes", api.getToken()).build();
+
+        Function<String, List<Meme>> function = (String object) -> {
+            JSONArray response = new JSONArray(object);
+            List<Meme> memes = new ArrayList<>();
+            for (int i = 0; i < response.length(); i++) {
+                memes.add(new MemeImpl((JSONObject) response.get(i), api));
+            }
+            return memes;
+        };
+
+        return new Requester<>(api, request, function);
     }
 
     @Override

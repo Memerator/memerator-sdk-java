@@ -27,11 +27,4 @@ public interface Comment {
      * @return the meme this comment was left on.
      */
     Meme getAssociatedMeme();
-
-    /**
-     * Deletes this comment, only works if you meet one of the following conditions
-     * 1) You own the meme
-     * 2) You made the comment
-     */
-    void delete();
 }

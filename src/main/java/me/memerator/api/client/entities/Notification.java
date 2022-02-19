@@ -1,5 +1,6 @@
 package me.memerator.api.client.entities;
 
+import me.memerator.api.internal.requests.Requester;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
@@ -58,5 +59,5 @@ public interface Notification {
     /**
      * Deletes this notification
      */
-    void delete();
+    Requester<Void> delete();
 }

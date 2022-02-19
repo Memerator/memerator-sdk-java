@@ -6,6 +6,9 @@ import me.memerator.api.client.entities.Comment;
 import me.memerator.api.client.entities.Meme;
 import me.memerator.api.client.entities.Rating;
 import me.memerator.api.client.entities.User;
+import me.memerator.api.internal.requests.RequestBuilder;
+import me.memerator.api.internal.requests.Requester;
+import okhttp3.Request;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,6 +17,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Function;
 
 public class MemeImpl implements Meme {
     JSONObject values;
@@ -78,13 +82,20 @@ public class MemeImpl implements Meme {
     }
 
     @Override
-    public List<Comment> getComments() {
-        JSONArray commentsraw = new JSONArray(api.getAPI().get("/meme/" + getMemeId() + "/comments"));
-        ArrayList<Comment> comments = new ArrayList<>();
-        for(int i = 0; i < commentsraw.length(); i++) {
-            comments.add(new CommentImpl((JSONObject) commentsraw.get(i), api));
-        }
-        return comments;
+    public Requester<List<Comment>> retrieveComments() {
+        Request request = RequestBuilder.get("meme/" + getMemeId() + "/comments", api.getToken()).build();
+
+        Function<String, List<Comment>> function = (String object) -> {
+            JSONArray commentsraw = new JSONArray(object);
+
+            ArrayList<Comment> comments = new ArrayList<>();
+            for(int i = 0; i < commentsraw.length(); i++) {
+                comments.add(new CommentImpl((JSONObject) commentsraw.get(i), api));
+            }
+            return comments;
+        };
+
+        return new Requester<>(api.getClient(), request, function);
     }
 
     @Override
@@ -93,46 +104,64 @@ public class MemeImpl implements Meme {
     }
 
     @Override
-    public List<Rating> getRatings() {
-        JSONArray ratings = new JSONArray(api.getAPI().get("meme/" + getMemeId() + "/ratings"));
-        List<Rating> response = new ArrayList<>();
-        for(Object rating : ratings)
-            response.add(new RatingImpl((JSONObject) rating, this, api));
-        return response;
+    public Requester<List<Rating>> retrieveRatings() {
+        Request request = RequestBuilder.get("meme/" + getMemeId() + "/ratings", api.getToken()).build();
+
+        Function<String, List<Rating>> function = (String object) -> {
+            JSONArray ratings = new JSONArray(object);
+            List<Rating> response = new ArrayList<>();
+            for(Object rating : ratings)
+                response.add(new RatingImpl((JSONObject) rating, this, api));
+            return response;
+        };
+
+        return new Requester<>(api.getClient(), request, function);
     }
 
     @Override
-    public Rating getOwnRating() {
-        return new RatingImpl(new JSONObject(api.getAPI().get("meme/" + getMemeId() + "/rating")), this, api);
+    public Requester<Rating> retrieveOwnRating() {
+        Request request = RequestBuilder.get("meme/" + getMemeId() + "/rating", api.getToken()).build();
+        Function<String, Rating> function = (String rating) -> new RatingImpl(new JSONObject(rating), this, api);
+
+        return new Requester<>(api.getClient(), request, function);
     }
 
     @Override
-    public void disable() {
-        api.getAPI().put("meme/" + getMemeId() + "/disable", new HashMap<>());
+    public Requester<Void> disable() {
+        Request request = RequestBuilder.put("meme/" + getMemeId() + "/disable", new HashMap<>(), api.getToken()).build();
         values.put("disabled", true);
+
+        return new Requester<>(api.getClient(), request, (String object) -> null);
     }
 
     @Override
-    public void enable() {
-        api.getAPI().put("meme/" + getMemeId() + "/enable", new HashMap<>());
+    public Requester<Void> enable() {
+        Request request = RequestBuilder.put("meme/" + getMemeId() + "/enable", new HashMap<>(), api.getToken()).build();
         values.put("disabled", false);
+
+        return new Requester<>(api.getClient(), request, (String object) -> null);
     }
 
     @Override
-    public void setCaption(String newcaption) {
+    public Requester<Void> setCaption(String newcaption) {
         HashMap<String, Object> body = new HashMap<>();
         body.put("caption", newcaption);
-        api.getAPI().put("meme/" + getMemeId() + "/caption", body);
+
+        Request request = RequestBuilder.put("meme/" + getMemeId() + "/caption", body, api.getToken()).build();
         values.put("caption", newcaption);
+
+        return new Requester<>(api.getClient(), request, (String object) -> null);
     }
 
     @Override
-    public void rate(int rating) {
+    public Requester<Void> rate(int rating) {
         if(!(rating >= 1 && rating <= 5)) {
             throw new IllegalArgumentException("Enter a number between 1 and 5!");
         }
         HashMap<String, Object> body = new HashMap<>();
         body.put("rating", rating);
-        api.getAPI().post("meme/" + getMemeId() + "/rate", body);
+
+        Request request = RequestBuilder.put("meme/" + getMemeId() + "/rate", body, api.getToken()).build();
+        return new Requester<>(api.getClient(), request, (String object) -> null);
     }
 }

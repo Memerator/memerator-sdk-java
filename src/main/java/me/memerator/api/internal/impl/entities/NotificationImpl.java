@@ -3,6 +3,9 @@ package me.memerator.api.internal.impl.entities;
 import me.memerator.api.client.MemeratorAPI;
 import me.memerator.api.client.entities.Notification;
 import me.memerator.api.client.entities.User;
+import me.memerator.api.internal.requests.RequestBuilder;
+import me.memerator.api.internal.requests.Requester;
+import okhttp3.Request;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
@@ -67,7 +70,9 @@ public class NotificationImpl implements Notification {
     }
 
     @Override
-    public void delete() {
-        api.getAPI().delete("/notification/" + getNotificationId());
+    public Requester<Void> delete() {
+        Request request = RequestBuilder.delete("/notification/" + getNotificationId(), api.getToken()).build();
+
+        return new Requester<>(api, request, (r) -> null);
     }
 }
