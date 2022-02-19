@@ -56,6 +56,7 @@ Alternatively, on the same Jenkins link, you can manually download the JAR yours
 Using the API is simple. Here's an example to get you started!
 
 ```java
+import me.memerator.api.client.MemeratorAPIBuilder;
 import me.memerator.api.client.entities.Meme;
 import me.memerator.api.client.MemeratorAPI;
 import me.memerator.api.internal.impl.MemeratorAPIImpl;
@@ -63,7 +64,7 @@ import me.memerator.api.internal.impl.MemeratorAPIImpl;
 public class MyMemeratorProgram {
     public static void main(String[] args) {
         // Define the Memerator API
-        MemeratorAPI api = new MemeratorAPIImpl("your api key");
+        MemeratorAPI api = MemeratorAPIBuilder.create("your api key").build();
         // Get meme "aaaaaaa"
         Meme meme = api.retrieveMeme("aaaaaaa").complete();
         // Print out the memerator.me link

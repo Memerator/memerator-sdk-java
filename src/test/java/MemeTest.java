@@ -1,13 +1,18 @@
 import me.memerator.api.client.MemeratorAPI;
+import me.memerator.api.client.MemeratorAPIBuilder;
 import me.memerator.api.client.entities.Age;
 import me.memerator.api.client.entities.Meme;
-import me.memerator.api.internal.impl.MemeratorAPIImpl;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MemeTest {
-    public static MemeratorAPI api = new MemeratorAPIImpl(System.getenv("API_KEY"));
+    public static MemeratorAPI api = MemeratorAPIBuilder.create(System.getenv("API_KEY")).build();
 
     @Test
     public void getRandomMeme() {

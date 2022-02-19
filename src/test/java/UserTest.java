@@ -1,4 +1,5 @@
 import me.memerator.api.client.MemeratorAPI;
+import me.memerator.api.client.MemeratorAPIBuilder;
 import me.memerator.api.client.entities.UserPerk;
 import me.memerator.api.client.entities.Profile;
 import me.memerator.api.internal.impl.MemeratorAPIImpl;
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UserTest {
-    public static MemeratorAPI api = new MemeratorAPIImpl(System.getenv("API_KEY"));
+    public static MemeratorAPI api = MemeratorAPIBuilder.create(System.getenv("API_KEY")).build();
 
     @Test
     public void perkTest() {
