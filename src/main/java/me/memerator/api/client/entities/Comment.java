@@ -1,60 +1,37 @@
 package me.memerator.api.client.entities;
 
-import me.memerator.api.client.MemeratorAPI;
-import org.json.JSONObject;
-
 import java.time.Instant;
 
-public class Comment {
-    JSONObject values;
-    MemeratorAPI api;
-
-    public Comment(JSONObject items, MemeratorAPI api) {
-        values = items;
-        this.api = api;
-    }
-
+public interface Comment {
     /**
      * @return this comment's ID.
      */
-    public int getCommentId() {
-        return values.getInt("id");
-    }
+    int getCommentId();
 
     /**
      * @return the actual comment contents.
      */
-    public String getCommentContent() {
-        return values.getString("content");
-    }
+    String getCommentContent();
 
     /**
      * @return the timestamp of this comment
      */
-    public Instant getTimestamp() {
-        return Instant.ofEpochSecond(values.getLong("timestamp_epoch_seconds"));
-    }
+    Instant getTimestamp();
 
     /**
      * @return the author of this comment.
      */
-    public User getAuthor() {
-        return new User(values.getJSONObject("author"), api);
-    }
+    User getAuthor();
 
     /**
      * @return the meme this comment was left on.
      */
-    public Meme getAssociatedMeme() {
-        return new Meme(values.getJSONObject("meme"), api);
-    }
+    Meme getAssociatedMeme();
 
     /**
      * Deletes this comment, only works if you meet one of the following conditions
      * 1) You own the meme
      * 2) You made the comment
      */
-    public void delete() {
-        api.getAPI().delete("/notification/" + getCommentId());
-    }
+    void delete();
 }

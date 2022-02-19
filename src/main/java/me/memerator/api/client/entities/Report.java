@@ -1,26 +1,13 @@
 package me.memerator.api.client.entities;
 
-import me.memerator.api.client.MemeratorAPI;
-import org.json.JSONObject;
-
 /**
  * A report on Memerator
  */
-public class Report {
-    JSONObject values;
-    MemeratorAPI api;
-
-    public Report(JSONObject items, MemeratorAPI api) {
-        values = items;
-        this.api = api;
-    }
-
+public interface Report {
     /**
      * @return the report ID.
      */
-    public int getReportId() {
-        return values.getInt("id");
-    }
+    int getReportId();
 
     /**
      * The status of the meme. Used to see where the report is.
@@ -31,82 +18,58 @@ public class Report {
      * @deprecated
      * @see Report#getStatus()
      */
-    public int getStatusCode() {
-        return values.getInt("status");
-    }
+    int getStatusCode();
 
     /**
      * The status of the report.
      * @return the status
      */
-    public ReportStatus getStatus() {
-        return ReportStatus.fromInt(values.getInt("status"));
-    }
+    ReportStatus getStatus();
 
     /**
      * @return the ID of the meme being reported.
      */
-    public String getAssociatedMemeId() {
-        return values.getString("memeid");
-    }
+    String getAssociatedMemeId();
 
     /**
      * @return the reason for the report.
      */
-    public String getReason() {
-        return values.getJSONObject("message").getString("reason");
-    }
+    String getReason();
 
     /**
      * @return more detailed explanation
      */
-    public String getDescription() {
-        return values.getJSONObject("message").getString("description");
-    }
+    String getDescription();
 
     /**
      * @return the staff member assigned to this report, if one is assigned
      */
-    public User getAssignee() {
-        if(values.get("assignee") == null) {
-            return null;
-        } else {
-            return new User(values.getJSONObject("assignee"), api);
-        }
-    }
+    User getAssignee();
 
     /**
      * @return the staff member's comment, if they responded.
      */
-    public String getStaffComment() {
-        return values.getString("comment");
-    }
+    String getStaffComment();
 
     /**
      * @return if the report is open
      * @deprecated
      * @see Report#getStatus()
      */
-    public boolean isOpen() {
-        return getStatusCode() == 0;
-    }
+    boolean isOpen();
 
     /**
      * @return if the report is assigned to someone
      * @deprecated
      * @see Report#getStatus()
      */
-    public boolean isAssigned() {
-        return getStatusCode() == 0;
-    }
+    boolean isAssigned();
 
     /**
      * @return if the report is closed
      * @deprecated
      * @see Report#getStatus()
      */
-    public boolean isClosed() {
-        return getStatusCode() == 2;
-    }
+    boolean isClosed();
 }
 
