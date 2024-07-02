@@ -22,7 +22,6 @@ import me.memerator.api.client.errors.InvalidToken;
 import me.memerator.api.client.errors.NotFound;
 import me.memerator.api.client.errors.RateLimited;
 import me.memerator.api.client.errors.Unauthorized;
-import me.memerator.api.internal.impl.MemeratorAPIImpl;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -62,17 +61,23 @@ public class Requester<T> {
                 // MemeratorAPI Begin: Add response code checker
                 switch(response.code()) {
                     case 400:
-                        throw new IllegalArgumentException("1 or more arguments were invalid");
+                        onFailure.accept(new IllegalArgumentException("1 or more arguments were invalid"));
+                        return;
                     case 401:
-                        throw new InvalidToken("Your API token failed authentication.");
+                        onFailure.accept(new InvalidToken("Your API token failed authentication."));
+                        return;
                     case 403:
-                        throw new Unauthorized("Your API token is valid, however it can't access this object.");
+                        onFailure.accept(new Unauthorized("Your API token is valid, however it can't access this object."));
+                        return;
                     case 404:
-                        throw new NotFound("That object or endpoint doesn't exist!");
+                        onFailure.accept(new NotFound("That object or endpoint doesn't exist!"));
+                        return;
                     case 429:
-                        throw new RateLimited("You have reached the rate limit!");
+                        onFailure.accept(new RateLimited("You have reached the rate limit!"));
+                        return;
                     case 500:
-                        throw new InternalServerError("A server side error occurred while performing this request. Please try again later!");
+                        onFailure.accept(new InternalServerError("A server side error occurred while performing this request. Please try again later!"));
+                        return;
                 }
                 // Memerator API End
                 try {
